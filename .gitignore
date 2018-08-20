@@ -1,0 +1,8 @@
+/node_modules
+/core
+/vendor
+/.idea
+/.vscode
+npm-debug.log
+yarn-error.log
+wp-config.php

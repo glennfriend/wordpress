@@ -1,0 +1,33 @@
+{
+    "name": "my/wordpress",
+    "description": "The Wordpress.",
+    "keywords": [],
+    "type": "project",
+    "require": {
+        "johnpbloch/wordpress": "4.9.8"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "classmap": [],
+        "psr-4": {},
+        "files": []
+    },
+    "autoload-dev": {
+        "psr-4": {}
+    },
+    "extra": {
+        "installer-paths": {
+            "content/themes/{$name}/":    ["type:wordpress-theme"],
+            "content/plugins/{$name}/":   ["type:wordpress-plugin"],
+            "content/mu-plugins/{$name}": ["type:wordpress-muplugin"]
+        },
+        "wordpress-install-dir": "core"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "cp -n core/index.php            ./index.php",
+            "cp -n core/wp-config-sample.php ./wp-config.php"
+        ]
+    }
+}
