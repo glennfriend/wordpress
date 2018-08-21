@@ -26,6 +26,9 @@
     },
     "scripts": {
         "post-install-cmd": [
+            "mkdir -p content/themes",
+            "mkdir -p content/plugins",
+            "mkdir -p content/mu-plugins",
             "cp -n wordpress/index.php            ./index.php",
             "cp -n wordpress/wp-config-sample.php ./wp-config.php"
         ]
