@@ -1,4 +1,33 @@
 <?php
+
+define('FS_METHOD', 'direct');
+
+/**
+ * Dynamic home and site URLs to handle both websites in all environments, set here your folder name.
+ */
+define('SITE_FOLDER', 'blog');
+define('WP_SITEURL', 'https://' . $_SERVER['HTTP_HOST'] . '/' . SITE_FOLDER . '/wordpress');
+define('WP_HOME',    'https://' . $_SERVER['HTTP_HOST'] . '/' . SITE_FOLDER);
+
+define('WP_CONTENT_DIR',  dirname(__FILE__) . '/content');
+define('WP_PLUGIN_DIR',   dirname(__FILE__) . '/content/plugins');
+define('WPMU_PLUGIN_DIR', dirname(__FILE__) . '/content/mu-plugins');
+define('WP_CONTENT_URL',  'https://' . $_SERVER['HTTP_HOST'] . '/' . SITE_FOLDER . '/content');
+define('WP_PLUGIN_URL',   'https://' . $_SERVER['HTTP_HOST'] . '/content/plugins');
+define('WPMU_PLUGIN_URL', 'https://' . $_SERVER['HTTP_HOST'] . '/content/mu-plugins');
+
+//
+define('WP_DEBUG_LOG', false);
+define('WP_DEBUG_DISPLAY', false);
+
+/**
+ * Composer's autoloader, used throughout the project
+ */
+require_once( __DIR__ . '/vendor/autoload.php' );
+
+
+
+
 /**
  * The base configuration for WordPress
  *
@@ -56,33 +85,6 @@ define('LOGGED_IN_SALT',   'put your unique phrase here');
 define('NONCE_SALT',       'put your unique phrase here');
 
 /**#@-*/
-define('FS_METHOD', 'ftpext');
-define('FTP_BASE', '/wordpress/');
-define('FTP_CONTENT_DIR', '/content/');
-define('FTP_PLUGIN_DIR', '/content/plugins/');
-define('FTP_USER', '');
-define('FTP_PASS', '');
-define('FTP_HOST', 'localhost');
-define('FTP_SSL', false);
-
-/**
- * Dynamic home and site URLs to handle both websites in all environments, set here your folder name.
- */
-define('SITE_NAME', 'blog');
-define('WP_SITEURL', 'https://' . $_SERVER['HTTP_HOST'] . '/' . SITE_NAME . '/wordpress');
-define('WP_HOME',    'https://' . $_SERVER['HTTP_HOST'] . '/' . SITE_NAME);
-
-define('WP_CONTENT_DIR',  dirname(__FILE__) . '/content');
-define('WP_PLUGIN_DIR',   dirname(__FILE__) . '/content/plugins');
-define('WPMU_PLUGIN_DIR', dirname(__FILE__) . '/content/mu-plugins');
-define('WP_CONTENT_URL',  'https://' . $_SERVER['HTTP_HOST'] . '/' . SITE_NAME . '/content');
-define('WP_PLUGIN_URL',   'https://' . $_SERVER['HTTP_HOST'] . '/content/plugins');
-define('WPMU_PLUGIN_URL', 'https://' . $_SERVER['HTTP_HOST'] . '/content/mu-plugins');
-
-/**
- * Composer's autoloader, used throughout the project
- */
-//require_once( __DIR__ . '/vendor/autoload.php' );
 
 /**
  * WordPress Database Table prefix.

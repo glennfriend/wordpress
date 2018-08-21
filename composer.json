@@ -29,6 +29,7 @@
             "mkdir -p content/themes",
             "mkdir -p content/plugins",
             "mkdir -p content/mu-plugins",
+            "mkdir -p content/uploads",
             "cp -n wordpress/index.php            ./index.php",
             "cp -n wordpress/wp-config-sample.php ./wp-config.php"
         ]
