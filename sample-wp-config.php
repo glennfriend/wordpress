@@ -13,8 +13,8 @@ define('WP_CONTENT_DIR',  dirname(__FILE__) . '/content');
 define('WP_PLUGIN_DIR',   dirname(__FILE__) . '/content/plugins');
 define('WPMU_PLUGIN_DIR', dirname(__FILE__) . '/content/mu-plugins');
 define('WP_CONTENT_URL',  'https://' . $_SERVER['HTTP_HOST'] . '/' . SITE_FOLDER . '/content');
-define('WP_PLUGIN_URL',   'https://' . $_SERVER['HTTP_HOST'] . '/content/plugins');
-define('WPMU_PLUGIN_URL', 'https://' . $_SERVER['HTTP_HOST'] . '/content/mu-plugins');
+define('WP_PLUGIN_URL',   'https://' . $_SERVER['HTTP_HOST'] . '/' . SITE_FOLDER . '/content/plugins');
+define('WPMU_PLUGIN_URL', 'https://' . $_SERVER['HTTP_HOST'] . '/' . SITE_FOLDER . '/content/mu-plugins');
 
 //
 define('WP_DEBUG_LOG', false);
