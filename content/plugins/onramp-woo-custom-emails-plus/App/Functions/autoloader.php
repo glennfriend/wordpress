@@ -2,7 +2,7 @@
 
 namespace Onramp_Woo_Custom_Emails_Plus\App\Functions;
 
-spl_autoload_register( __NAMESPACE__ . '\\autoloader' );
+spl_autoload_register(__NAMESPACE__ . '\\autoloader');
 
 /**
  * Dynamically loads the class attempting to be instantiated elsewhere in the
@@ -38,7 +38,6 @@ function autoloader($filename) {
         $dir = $file_path[$i];
         $fully_qualified_path .= trailingslashit($dir);
     }
-
     $fully_qualified_path .= $class_file;
 
     // Now we include the file.

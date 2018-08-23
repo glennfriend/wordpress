@@ -22,8 +22,8 @@ use Onramp_Woo_Custom_Emails_Plus\App\ServiceProvider;
 defined('ABSPATH') || exit;
 
 
-
 if (! class_exists('Onramp_Woo_Custom_Emails_Plus')) {
+    // ServiceProvider::class
 
     // register_activation_hook( __FILE__, 'your_activation_function')
     //
@@ -35,15 +35,17 @@ if (! class_exists('Onramp_Woo_Custom_Emails_Plus')) {
     // 遵守自 => https://developer.wordpress.org/plugins/the-basics/uninstall-methods/
 
 
+
     $onramp_woo_custom_emails_plus_init = function()
     {
         include_once('App/Functions/autoloader.php');
         $instance = new ServiceProvider(__DIR__);
         $instance->init();
-	};
+    };
     $onramp_woo_custom_emails_plus_init();
 
 }
+
 
 
 /*

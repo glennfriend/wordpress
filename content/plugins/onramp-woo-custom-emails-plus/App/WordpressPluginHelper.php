@@ -4,7 +4,6 @@ namespace Onramp_Woo_Custom_Emails_Plus\App;
 
 /**
  * Class WordpressPluginHelper
- * @package Onramp_Woo_Custom_Emails_Plus\App
  */
 final class WordpressPluginHelper
 {
