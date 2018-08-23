@@ -14,14 +14,18 @@ final class ServiceProvider
      */
     public function __construct(string $dir)
     {
+        $isDebugMode = WP_DEBUG;
+
         $this->dir = $dir;
         $this->helper = new WordpressPluginHelper($dir);
+        $this->display = new WordpressDispaly($isDebugMode);
     }
 
     public function init()
     {
-        add_action('plugins_loaded', [$this, 'pluginsLoadedHook']);
+        add_action('plugins_loaded', [$this, 'debugModeHook']);
         add_action('init',           [$this, 'initHook']);
+        add_action('admin_init',     [$this, 'dependencyCheckHook']);
     }
 
     // ================================================================================
@@ -32,44 +36,40 @@ final class ServiceProvider
     {
     }
 
-    public function pluginsLoadedHook()
+    public function debugModeHook()
     {
-        add_action('admin_init', [$this, 'dependencyCheck']);
+        if (! WP_DEBUG) {
+            return;
+        }
 
         $price = new Price();
         $value = $price->getValue();
 
-        if (WP_DEBUG) {
-            $message = [];
-            $message[] = $this->getNamespaceShow() . ' [debug mode]';
-            $message[] = 'hello world init!' . $value;
-            $message[] = 'pluginPath = ' . $this->helper->pluginPath();
-            echo '<div class="notice notice-success"><p>' . join("<br>\n", $message) .'</p></div>';
+        $this->display->success('hello world init!' . $value);
+        $this->display->success('pluginPath = ' . $this->helper->pluginPath());
+        $this->display->showAll();
+
+        // 如果要檢查操作的順序以及每個操作的觸發次數，那麼您可以使用
+        if (false) {
+            add_action('shutdown', function () {
+                $message = '<pre>' . print_r($GLOBALS['wp_actions'], true) . '</pre>';
+                $this->display->info($message);
+                $this->display->showAll();
+            });
+        }
+
+    }
+
+    public function dependencyCheckHook()
+    {
+        if (! is_plugin_active('woo-custom-emails/woo-custom-emails.php')) {
+            $this->display->error('<b>woo-custom-emails</b> plugin not exists!');
+            $this->display->showAll();
         }
     }
 
     // ================================================================================
     //  private
     // ================================================================================
-
-    public function dependencyCheck()
-    {
-        if (! is_plugin_active('woo-custom-emails/woo-custom-emails.ph_p')) {
-            $error = [];
-            $error[] = $this->getNamespaceShow();
-            $error[] = '<b>woo-custom-emails</b> plugin not exists!';
-            echo '<div class="notice notice-error"><p>' . join("<br>\n", $error) .'</p></div>';
-        }
-    }
-
-    protected function getNamespaceShow()
-    {
-        return '[' . $this->getNamespace() . ']';
-    }
-
-    protected function getNamespace()
-    {
-        return explode("\\", __NAMESPACE__)[0];
-    }
 
 }
