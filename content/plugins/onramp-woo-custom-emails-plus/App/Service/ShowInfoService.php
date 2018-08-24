@@ -22,15 +22,7 @@ final class ShowInfoService
         $this->helper = new WordpressPluginHelper($pluginDir);
     }
 
-    public function perform()
-    {
-        $this->activatePluginTrigger();
-    }
-
-    /**
-     * 每次對 plugin 做 active 的時候, 會觸發一次
-     */
-    public function activatePluginTrigger()
+    public function perform($message)
     {
         $cacheName = $this->helper->getNamespace() . '_activate_plugin_trigger';
 
@@ -38,10 +30,10 @@ final class ShowInfoService
             set_transient($key, true);
         });
 
-        add_action('admin_notices', function($key) use ($cacheName) {
+        add_action('admin_notices', function($key) use ($cacheName, $message) {
             if (get_transient($key)) {
                 delete_transient($key);
-                $this->showEnablePluginInfo();
+                $this->showEnablePluginInfo($message);
             }
         });
     }
@@ -49,18 +41,11 @@ final class ShowInfoService
     /**
      *
      */
-    public function showEnablePluginInfo()
+    public function showEnablePluginInfo($message)
     {
-        $message = <<<"EOD"
-<pre>priority = {$this->priority}
-add new template to "<b>Woo Custom Emails</b>" plugin =
-    {onramp_woo_custom_emails_plus_version}
-    {onramp_woo_custom_emails_plus_order_itmes}
-    {onramp_woo_custom_emails_plus_order_items_and_count}
-    {onramp_woo_custom_emails_plus_order_total}
-</pre>
-EOD;
-
+        if (! $message) {
+            return;
+        }
         $this->display->info($message);
         $this->display->showAll();
     }
