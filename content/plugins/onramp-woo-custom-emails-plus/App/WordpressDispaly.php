@@ -79,6 +79,7 @@ final class WordpressDispaly
             'success' => [],
             'error' => [],
             'info' => [],
+            'warning' => [],
         ];
     }
 }

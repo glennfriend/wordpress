@@ -23,15 +23,20 @@ final class ServiceProvider
 
     public function init()
     {
-        add_action('plugins_loaded', [$this, 'debugModeHook'],          $this->priority );
+        add_filter('wcemails_find_placeholders', [$this, 'wooCustomEmailsTemplatesPlus'], $this->priority, 2);
+
         add_action('init',           [$this, 'initHook'],               $this->priority );
         add_action('admin_init',     [$this, 'dependencyCheckHook'],    $this->priority );
 
-        add_filter('wcemails_find_placeholders', [$this, 'wooCustomEmailsTemplatesPlus'], $this->priority, 2);
+        // for debug only
+        if (WP_DEBUG && false) {
+            add_action('plugins_loaded',    [$this, 'debugInfoHook'],       $this->priority );
+            add_action('shutdown',          [$this, 'debugShowAllActions'], $this->priority );
+        }
     }
 
     // ================================================================================
-    //  hook
+    //  function hook
     // ================================================================================
 
     /**
@@ -54,30 +59,6 @@ final class ServiceProvider
 
     public function initHook()
     {
-
-    }
-
-    /**
-     * 在 debug mode 有啟用的情況, 通常會是在 staging 的環境之下
-     */
-    public function debugModeHook()
-    {
-        if (! WP_DEBUG) {
-            return;
-        }
-
-        $this->display->info('priority = ' . $this->priority);
-        // $this->display->info('pluginPath = ' . $this->helper->pluginPath());
-        $this->display->showAll();
-
-        // 如果要檢查操作的順序以及每個操作的觸發次數，那麼您可以使用
-        if (false) {
-            add_action('shutdown', function () {
-                $message = '<pre>' . print_r($GLOBALS['wp_actions'], true) . '</pre>';
-                $this->display->info($message);
-                $this->display->showAll();
-            });
-        }
 
     }
 
@@ -111,7 +92,28 @@ final class ServiceProvider
     }
 
     // ================================================================================
-    //  private
+    //  tool hook
     // ================================================================================
+
+    /**
+     * 如果要檢查操作的順序以及每個操作的觸發次數，那麼您可以使用
+     */
+    public function debugShowAllActions()
+    {
+        $message = '<pre>' . print_r($GLOBALS['wp_actions'], true) . '</pre>';
+        $this->display->info($message);
+        $this->display->showAll();
+    }
+
+
+    /**
+     * 在 debug mode 有啟用的情況, 通常會是在 staging 的環境之下
+     */
+    public function debugInfoHook()
+    {
+        $this->display->info('priority = ' . $this->priority);
+        // $this->display->info('pluginPath = ' . $this->helper->pluginPath());
+        $this->display->showAll();
+    }
 
 }
