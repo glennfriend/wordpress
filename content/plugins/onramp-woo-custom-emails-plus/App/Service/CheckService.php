@@ -10,16 +10,15 @@ use Onramp_Woo_Custom_Emails_Plus\App\WordpressDispaly;
 final class CheckService
 {
 
-    public function __construct(int $priority)
+    public function __construct()
     {
-        $this->priority = $priority;
         $this->display = new WordpressDispaly();
     }
 
     public function perform()
     {
-        add_action('admin_init', [$this, 'dependencyPluginCheck'], $this->priority);
-        add_action('admin_init', [$this, 'phpVersionCheck'], $this->priority);
+        add_action('admin_init', [$this, 'dependencyPluginCheck']);
+        add_action('admin_init', [$this, 'phpVersionCheck']);
     }
 
     /**

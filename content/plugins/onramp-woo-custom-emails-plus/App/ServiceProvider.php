@@ -25,12 +25,12 @@ final class ServiceProvider
         $this->file = $file;
     }
 
-    public function init()
+    public function workBeforehand()
     {
         $showInfoService = new ShowInfoService($this->file, $this->priority);
         $showInfoService->perform();
 
-        $checkService = new CheckService($this->priority);
+        $checkService = new CheckService();
         $checkService->perform();
 
         // for debug only
@@ -39,22 +39,21 @@ final class ServiceProvider
             $debugInfoService = new DebugInfoService();
             $debugInfoService->perform();
         }
-
-        $this->main();
     }
 
     // ================================================================================
     //
     // ================================================================================
 
-    public function main()
+    public function init()
     {
+        $this->workBeforehand();
         add_filter('wcemails_find_placeholders', [$this, 'wooCustomEmailsTemplatesPlus'], $this->priority, 2);
-
-        // add_action('init',           [$this, 'initHook'],               $this->priority );
     }
 
     /**
+     * 幫助 "Woo Custom Emails" plugin 加上更多的 template variables
+     *
      * @param $placeholders
      * @param $object
      * @return mixed
