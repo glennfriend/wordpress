@@ -29,6 +29,11 @@ final class WordpressDispaly
         $this->messages['info'][] = $message;
     }
 
+    public function warning($message)
+    {
+        $this->messages['warning'][] = $message;
+    }
+
     public function showAll()
     {
         if ($message = $this->messages['success']) {
@@ -44,6 +49,11 @@ final class WordpressDispaly
         if ($message = $this->messages['info']) {
             array_unshift($message, $this->getNamespaceShow());
             echo '<div class="notice notice-info"><p>' . join("<br>\n", $message) .'</p></div>';
+        }
+
+        if ($message = $this->messages['warning']) {
+            array_unshift($message, $this->getNamespaceShow());
+            echo '<div class="notice notice-warning"><p>' . join("<br>\n", $message) .'</p></div>';
         }
 
         $this->reset();

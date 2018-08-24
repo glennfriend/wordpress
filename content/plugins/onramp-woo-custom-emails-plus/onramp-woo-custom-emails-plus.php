@@ -7,7 +7,7 @@ use Onramp_Woo_Custom_Emails_Plus\App\ServiceProvider;
 /**
  * Plugin Name: Onramp_Woo_Custom_Emails_Plus
  * Plugin URI:
- * Description: Dependency by "Woo Custom Emails", 增加一些 email template 的變數
+ * Description: Add some email template variables. Dependency by "Woo Custom Emails" v2.2
  * Version: 1.0
  * Author: Onramp
  * Author URI:
@@ -22,8 +22,9 @@ use Onramp_Woo_Custom_Emails_Plus\App\ServiceProvider;
 defined('ABSPATH') || exit;
 
 
-if (! class_exists('Onramp_Woo_Custom_Emails_Plus')) {
-    // ServiceProvider::class
+if (! class_exists(ServiceProvider::class)) {
+//if (! class_exists('Onramp_Woo_Custom_Emails_Plus')) {
+
 
     // register_activation_hook( __FILE__, 'your_activation_function')
     //
@@ -34,8 +35,6 @@ if (! class_exists('Onramp_Woo_Custom_Emails_Plus')) {
     //
     // 遵守自 => https://developer.wordpress.org/plugins/the-basics/uninstall-methods/
 
-
-
     $onramp_woo_custom_emails_plus_init = function()
     {
         include_once('App/Functions/autoloader.php');
@@ -45,20 +44,3 @@ if (! class_exists('Onramp_Woo_Custom_Emails_Plus')) {
     $onramp_woo_custom_emails_plus_init();
 
 }
-
-
-
-/*
-    if ( version_compare( phpversion(), '5.4.0', '<' ) ) {
-
-        add_action( 'admin_notices', 'php_version_error' );
-
-        function php_version_error()
-        {
-            echo '<div class="error"><p>' . __('SendGrid: Plugin requires PHP >= 5.4.0.') . '</p></div>';
-        }
-
-        return;
-    }
-*/
-
