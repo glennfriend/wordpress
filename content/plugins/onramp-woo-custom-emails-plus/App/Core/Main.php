@@ -12,7 +12,7 @@ class Main extends Base
 
     public function __construct()
     {
-        $this->adminInfo = <<<"EOD"
+        $adminInfo = <<<"EOD"
 <pre>    add new template to "<b>Woo Custom Emails</b>" plugin:
         {onramp_woo_custom_emails_plus_version}
         {onramp_woo_custom_emails_plus_order_itmes}
@@ -20,11 +20,13 @@ class Main extends Base
         {onramp_woo_custom_emails_plus_order_total}
 </pre>
 EOD;
+        $this->set('admin_info', $adminInfo);
+        $this->set('priority', 1000);
     }
 
     public function start()
     {
-        add_filter('wcemails_find_placeholders', [$this, 'wooCustomEmailsTemplatesPlus'], $this->priority, 2);
+        add_filter('wcemails_find_placeholders', [$this, 'wooCustomEmailsTemplatesPlus'], $this->get('priority'), 2);
     }
 
     /**

@@ -2,8 +2,8 @@
 
 namespace Onramp_Woo_Custom_Emails_Plus\App\Service;
 
-use Onramp_Woo_Custom_Emails_Plus\App\WordpressDispaly;
-use Onramp_Woo_Custom_Emails_Plus\App\WordpressPluginHelper;
+use Onramp_Woo_Custom_Emails_Plus\App\Lib\WordpressDispaly;
+use Onramp_Woo_Custom_Emails_Plus\App\Lib\WordpressPluginHelper;
 
 
 /**

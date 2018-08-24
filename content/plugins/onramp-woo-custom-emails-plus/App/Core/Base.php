@@ -8,29 +8,35 @@ namespace Onramp_Woo_Custom_Emails_Plus\App\Core;
 class Base
 {
     /**
-     * @var int
+     * @var array
      */
-    protected $priority = 1000;
+    protected $data = [];
 
     /**
-     * @var string
+     * @param $key
+     * @param null $defaultValue
+     * @return mixed|null
      */
-    protected $adminInfo = '';
-
-    /**
-     * @return int
-     */
-    public function getPriority()
+    public function get($key, $defaultValue=null)
     {
-        return $this->priority;
+        if (isset($this->data[$key])) {
+            return $this->data[$key];
+        }
+
+        return $defaultValue;
     }
 
     /**
-     * @return string
+     * @param $key
+     * @param $value
      */
-    public function getAdminInfo()
+    public function set($key, $value)
     {
-        return $this->adminInfo;
+        $this->data[$key] = $value;
     }
+
+    // --------------------------------------------------------------------------------
+    //
+    // --------------------------------------------------------------------------------
 
 }

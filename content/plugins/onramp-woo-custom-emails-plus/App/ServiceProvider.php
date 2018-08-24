@@ -21,8 +21,8 @@ final class ServiceProvider
     public function init()
     {
         $main = new Main();
-        $priority = $main->getPriority();
-        $adminInfo = $main->getAdminInfo();
+        $priority = $main->get('priority');
+        $adminInfo = $main->get('admin_info');
 
         //
         $showInfoService = new ShowInfoService($this->file, $priority);
