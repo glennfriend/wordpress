@@ -24,6 +24,12 @@ final class WordpressPluginHelper
         return $this->dir;
     }
 
+    public function getNamespace()
+    {
+        return explode("\\", __NAMESPACE__)[0];
+    }
+
+
     /*
     public function define($name, $value) {
         if (! defined($name) ) {

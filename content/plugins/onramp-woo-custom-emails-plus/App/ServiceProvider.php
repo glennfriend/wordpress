@@ -9,15 +9,19 @@ use Onramp_Woo_Custom_Emails_Plus\App\Template;
  */
 final class ServiceProvider
 {
+    /**
+     * @var int
+     */
     protected $priority = 1000;
 
     /**
      * @param string $dir
      */
-    public function __construct(string $dir)
+    public function __construct(string $file)
     {
-        $this->dir = $dir;
-        $this->helper = new WordpressPluginHelper($dir);
+        $this->file = $file;
+        $this->dir = dirname($file);
+        $this->helper = new WordpressPluginHelper($this->dir);
         $this->display = new WordpressDispaly();
     }
 
@@ -29,10 +33,31 @@ final class ServiceProvider
         add_action('admin_init',     [$this, 'dependencyCheckHook'],    $this->priority );
 
         // for debug only
+        // 在 debug mode 有啟用的情況, 通常會是在 staging 的環境之下
         if (WP_DEBUG && false) {
-            add_action('plugins_loaded',    [$this, 'debugInfoHook'],       $this->priority );
-            add_action('shutdown',          [$this, 'debugShowAllActions'], $this->priority );
+            add_action('shutdown', [$this, 'showAllActions'], $this->priority );
         }
+
+        $this->activatePluginTrigger();
+    }
+
+    /**
+     * 每次對 plugin 做 active 的時候, 會觸發一次
+     */
+    public function activatePluginTrigger()
+    {
+        $cacheName = $this->helper->getNamespace() . '_activate_plugin_trigger';
+
+        register_activation_hook($this->file, function($key) use ($cacheName) {
+            set_transient($key, true);
+        });
+
+        add_action('admin_notices', function($key) use ($cacheName) {
+            if (get_transient($key)) {
+                delete_transient($key);
+                $this->showEnablePluginInfo();
+            }
+        });
     }
 
     // ================================================================================
@@ -82,37 +107,40 @@ final class ServiceProvider
         $template = new Template\OrderTotal($object);
         $placeholders['{onramp_woo_custom_emails_plus_order_total}'] = $template->render();
 
-        if (false) {
-            $content = "================ \n";
-            $content .= print_r($object, true);
-            file_put_contents( __DIR__ . '/tmp.log', $content."\n", FILE_APPEND );
-        }
 
         return $placeholders;
     }
 
     // ================================================================================
-    //  tool hook
+    //
     // ================================================================================
 
     /**
+     * 通常於 staging 使用
      * 如果要檢查操作的順序以及每個操作的觸發次數，那麼您可以使用
      */
-    public function debugShowAllActions()
+    public function showAllActions()
     {
         $message = '<pre>' . print_r($GLOBALS['wp_actions'], true) . '</pre>';
         $this->display->info($message);
         $this->display->showAll();
     }
 
-
     /**
-     * 在 debug mode 有啟用的情況, 通常會是在 staging 的環境之下
+     *
      */
-    public function debugInfoHook()
+    public function showEnablePluginInfo()
     {
-        $this->display->info('priority = ' . $this->priority);
-        // $this->display->info('pluginPath = ' . $this->helper->pluginPath());
+        $message = <<<"EOD"
+priority = {$this->priority}
+add new template to "<b>Woo Custom Emails</b>" plugin =
+    {onramp_woo_custom_emails_plus_version}
+    {onramp_woo_custom_emails_plus_order_itmes}
+    {onramp_woo_custom_emails_plus_order_items_and_count}
+    {onramp_woo_custom_emails_plus_order_total}
+EOD;
+
+        $this->display->info('<pre>' . $message . '</pre>');
         $this->display->showAll();
     }
 
