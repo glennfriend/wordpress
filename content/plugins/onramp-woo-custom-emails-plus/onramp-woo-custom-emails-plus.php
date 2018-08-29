@@ -1,6 +1,6 @@
 <?php
 
-namespace Onramp_Woo_Custom_Emails_Plus;
+// namespace Onramp_Woo_Custom_Emails_Plus;
 
 use Onramp_Woo_Custom_Emails_Plus\App\ServiceProvider;
 
@@ -24,7 +24,7 @@ defined('ABSPATH') || exit;
 
 
 
-if (! class_exists(ServiceProvider::class)) {
+if (! class_exists(ServiceProviderBase::class)) {
 //if (! class_exists('Onramp_Woo_Custom_Emails_Plus')) {
 
 
@@ -39,7 +39,7 @@ if (! class_exists(ServiceProvider::class)) {
 
     $onramp_woo_custom_emails_plus_init = function()
     {
-        include_once('App/Functions/autoloader.php');
+        include_once('App/autoloader.php');
         $instance = new ServiceProvider(__FILE__);
         $instance->init();
     };

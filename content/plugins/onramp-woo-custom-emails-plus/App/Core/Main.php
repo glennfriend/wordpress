@@ -2,12 +2,13 @@
 
 namespace Onramp_Woo_Custom_Emails_Plus\App\Core;
 
+use OnrampMini\Core\MainBase;
 use Onramp_Woo_Custom_Emails_Plus\App\Template;
 
 /**
  * Class Main
  */
-class Main extends Base
+class Main extends MainBase
 {
 
     public function __construct()
@@ -39,9 +40,6 @@ EOD;
     public function wooCustomEmailsTemplatesPlus($placeholders, $object)
     {
         if (! isset($placeholders['{site_title}'])) {
-            // Don't do anything
-            // plugin 有 先後順序 & 資料變動 的問題
-            // 即使這個時間點沒問題, 不代表未來的某一天也會是正常的
             return $placeholders;
         }
 

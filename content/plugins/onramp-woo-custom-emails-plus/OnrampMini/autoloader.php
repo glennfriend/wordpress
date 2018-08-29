@@ -1,6 +1,6 @@
 <?php
 
-namespace Onramp_Woo_Custom_Emails_Plus\App\Functions;
+namespace OnrampMini;
 
 spl_autoload_register(__NAMESPACE__ . '\\autoloader');
 
@@ -29,10 +29,7 @@ function autoloader($filename) {
         $class_file .= ".php";
     }
 
-    $fully_qualified_path = trailingslashit(
-        dirname(dirname(__DIR__))
-    );
-
+    $fully_qualified_path = trailingslashit(__DIR__);
     $file_count = count($file_path);
     for ($i = 1; $i < $file_count - 1; $i++) {
         $dir = $file_path[$i];
@@ -42,7 +39,7 @@ function autoloader($filename) {
 
     // Now we include the file.
     if (file_exists($fully_qualified_path)) {
-        include_once($fully_qualified_path);
+        require_once($fully_qualified_path);
     }
 
 }

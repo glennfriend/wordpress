@@ -1,11 +1,11 @@
 <?php
 
-namespace Onramp_Woo_Custom_Emails_Plus\App\Core;
+namespace OnrampMini\Core;
 
 /**
  * Class Base
  */
-class Base
+class MainBase
 {
     /**
      * @var array

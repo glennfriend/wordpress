@@ -2,21 +2,22 @@
 
 namespace Onramp_Woo_Custom_Emails_Plus\App;
 
+use OnrampMini\ServiceProvider\ServiceProviderBase;
 use Onramp_Woo_Custom_Emails_Plus\App\Service\CheckService;
 use Onramp_Woo_Custom_Emails_Plus\App\Service\DebugInfoService;
 use Onramp_Woo_Custom_Emails_Plus\App\Service\ShowInfoService;
 use Onramp_Woo_Custom_Emails_Plus\App\Core\Main;
 
+//
+$autoloader = dirname(__DIR__) . '/OnrampMini/autoloader.php';
+require_once($autoloader);
+
+
 /**
  * Class ServiceProvider
  */
-final class ServiceProvider
+final class ServiceProvider extends ServiceProviderBase
 {
-
-    public function __construct(string $file)
-    {
-        $this->file = $file;
-    }
 
     public function init()
     {

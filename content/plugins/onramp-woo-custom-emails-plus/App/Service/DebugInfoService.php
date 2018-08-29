@@ -2,7 +2,7 @@
 
 namespace Onramp_Woo_Custom_Emails_Plus\App\Service;
 
-use Onramp_Woo_Custom_Emails_Plus\App\Lib\WordpressDispaly;
+use OnrampMini\Lib\WordpressDispaly;
 
 /**
  * Class DebugInfoService
