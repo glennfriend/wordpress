@@ -1,6 +1,6 @@
 <?php
 
-namespace OnrampMini;
+namespace OnrampWooCustomEmailsPlus;
 
 spl_autoload_register(__NAMESPACE__ . '\\autoloader');
 
@@ -16,7 +16,7 @@ spl_autoload_register(__NAMESPACE__ . '\\autoloader');
  * example
  *      Company_Project_Feature\App\ServiceProvider
  *      =>
- *      /var/www/wordpress/wp-content/plugins/company-project-feature/App/ServiceProvider.php
+ *      /var/www/wordpress/wp-content/plugins/plugin-name/App/ServiceProvider.php
  *
  * @param string $filename The fully-qualified name of the file that contains the class.
  */
@@ -30,6 +30,7 @@ function autoloader($filename) {
     }
 
     $fully_qualified_path = trailingslashit(__DIR__);
+
     $file_count = count($file_path);
     for ($i = 1; $i < $file_count - 1; $i++) {
         $dir = $file_path[$i];

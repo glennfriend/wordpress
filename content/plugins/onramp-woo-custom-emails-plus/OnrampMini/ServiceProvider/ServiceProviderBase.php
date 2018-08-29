@@ -1,6 +1,6 @@
 <?php
 
-namespace OnrampMini\ServiceProvider;
+namespace OnrampWooCustomEmailsPlus\OnrampMini\ServiceProvider;
 
 /**
  * Class ServiceProvider

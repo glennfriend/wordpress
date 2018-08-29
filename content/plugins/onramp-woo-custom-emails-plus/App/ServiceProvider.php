@@ -1,17 +1,12 @@
 <?php
 
-namespace Onramp_Woo_Custom_Emails_Plus\App;
+namespace OnrampWooCustomEmailsPlus\App;
 
-use OnrampMini\ServiceProvider\ServiceProviderBase;
-use Onramp_Woo_Custom_Emails_Plus\App\Service\CheckService;
-use Onramp_Woo_Custom_Emails_Plus\App\Service\DebugInfoService;
-use Onramp_Woo_Custom_Emails_Plus\App\Service\ShowInfoService;
-use Onramp_Woo_Custom_Emails_Plus\App\Core\Main;
-
-//
-$autoloader = dirname(__DIR__) . '/OnrampMini/autoloader.php';
-require_once($autoloader);
-
+use OnrampWooCustomEmailsPlus\OnrampMini\ServiceProvider\ServiceProviderBase;
+use OnrampWooCustomEmailsPlus\App\Service\CheckService;
+use OnrampWooCustomEmailsPlus\App\Service\DebugInfoService;
+use OnrampWooCustomEmailsPlus\App\Service\ShowInfoService;
+use OnrampWooCustomEmailsPlus\App\Core\Main;
 
 /**
  * Class ServiceProvider

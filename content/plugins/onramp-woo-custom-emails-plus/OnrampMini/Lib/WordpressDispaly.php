@@ -1,6 +1,6 @@
 <?php
 
-namespace OnrampMini\Lib;
+namespace OnrampWooCustomEmailsPlus\OnrampMini\Lib;
 
 /**
  * Class WordpressDispaly

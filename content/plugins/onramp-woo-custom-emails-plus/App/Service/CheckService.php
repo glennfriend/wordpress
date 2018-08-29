@@ -1,8 +1,8 @@
 <?php
 
-namespace Onramp_Woo_Custom_Emails_Plus\App\Service;
+namespace OnrampWooCustomEmailsPlus\App\Service;
 
-use OnrampMini\Lib\WordpressDispaly;
+use OnrampWooCustomEmailsPlus\OnrampMini\Lib\WordpressDispaly;
 
 /**
  * Class DependencyCheckService

@@ -1,9 +1,9 @@
 <?php
 
-namespace Onramp_Woo_Custom_Emails_Plus\App\Core;
+namespace OnrampWooCustomEmailsPlus\App\Core;
 
-use OnrampMini\Core\MainBase;
-use Onramp_Woo_Custom_Emails_Plus\App\Template;
+use OnrampWooCustomEmailsPlus\OnrampMini\Core\MainBase;
+use OnrampWooCustomEmailsPlus\App\Template;
 
 /**
  * Class Main

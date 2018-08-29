@@ -1,6 +1,6 @@
 <?php
 
-namespace OnrampMini\Core;
+namespace OnrampWooCustomEmailsPlus\OnrampMini\Core;
 
 /**
  * Class Base
