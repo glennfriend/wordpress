@@ -1,6 +1,6 @@
 <?php
 
-namespace Onramp_Woo_Custom_Emails_Plus\App\Template;
+namespace OnrampWooCustomEmailsPlus\App\Feature\EmailTemplatePlus\Template;
 
 /**
  * example

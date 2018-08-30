@@ -39,7 +39,7 @@ if (! class_exists(ServiceProvider::class)) {
     {
         include_once('autoloader.php');
         $instance = new ServiceProvider(__FILE__);
-        $instance->init();
+        $instance->start();
     };
     $onramp_woo_custom_emails_plus_init();
 

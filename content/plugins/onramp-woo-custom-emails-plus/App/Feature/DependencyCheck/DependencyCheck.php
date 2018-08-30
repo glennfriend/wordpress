@@ -1,22 +1,17 @@
 <?php
 
-namespace OnrampWooCustomEmailsPlus\App\Service;
+namespace OnrampWooCustomEmailsPlus\App\Feature\DependencyCheck;
 
+use OnrampWooCustomEmailsPlus\App\ServiceProvider;
 use OnrampWooCustomEmailsPlus\OnrampMini\Lib\WordpressDispaly;
 
-/**
- * Class DependencyCheckService
- */
-final class CheckService
+class DependencyCheck
 {
 
-    public function __construct()
+    public function perform(ServiceProvider $provider)
     {
         $this->display = new WordpressDispaly();
-    }
 
-    public function perform()
-    {
         add_action('admin_init', [$this, 'dependencyPluginCheck']);
         add_action('admin_init', [$this, 'phpVersionCheck']);
     }
@@ -43,5 +38,7 @@ final class CheckService
             $this->display->showAll();
         }
     }
+
+
 
 }

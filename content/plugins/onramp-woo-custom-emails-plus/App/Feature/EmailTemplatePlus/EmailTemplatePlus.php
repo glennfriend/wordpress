@@ -1,33 +1,18 @@
 <?php
 
-namespace OnrampWooCustomEmailsPlus\App\Core;
+namespace OnrampWooCustomEmailsPlus\App\Feature\EmailTemplatePlus;
 
-use OnrampWooCustomEmailsPlus\OnrampMini\Core\MainBase;
-use OnrampWooCustomEmailsPlus\App\Template;
+use OnrampWooCustomEmailsPlus\App\ServiceProvider;
+use OnrampWooCustomEmailsPlus\App\Feature\EmailTemplatePlus\Template;
 
-/**
- * Class Main
- */
-class Main extends MainBase
+class EmailTemplatePlus
 {
 
-    public function __construct()
+    public function perform(ServiceProvider $provider)
     {
-        $adminInfo = <<<"EOD"
-<pre>    add new template to "<b>Woo Custom Emails</b>" plugin:
-        {onramp_woo_custom_emails_plus_version}
-        {onramp_woo_custom_emails_plus_order_itmes}
-        {onramp_woo_custom_emails_plus_order_items_and_count}
-        {onramp_woo_custom_emails_plus_order_total}
-</pre>
-EOD;
-        $this->set('admin_info', $adminInfo);
-        $this->set('priority', 1000);
-    }
+        $priority = $provider->priority;
 
-    public function start()
-    {
-        add_filter('wcemails_find_placeholders', [$this, 'wooCustomEmailsTemplatesPlus'], $this->get('priority'), 2);
+        add_filter('wcemails_find_placeholders', [$this, 'replaceTemplate'], $priority, 2);
     }
 
     /**
@@ -37,7 +22,7 @@ EOD;
      * @param $object
      * @return mixed
      */
-    public function wooCustomEmailsTemplatesPlus($placeholders, $object)
+    public function replaceTemplate($placeholders, $object)
     {
         if (! isset($placeholders['{site_title}'])) {
             return $placeholders;

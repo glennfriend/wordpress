@@ -4,16 +4,29 @@ namespace OnrampWooCustomEmailsPlus\OnrampMini\ServiceProvider;
 
 /**
  * Class ServiceProvider
- * final ??????
  */
 class ServiceProviderBase
 {
+    /**
+     * @var string
+     */
+    public $file;
 
-    protected $file;
+    /**
+     * @var int
+     */
+    public $priority = 1000;
 
+    /**
+     * @param string $file
+     */
     public function __construct(string $file)
     {
         $this->file = $file;
     }
 
+    public function execute($class)
+    {
+        (new $class($this))->perform($this);
+    }
 }
