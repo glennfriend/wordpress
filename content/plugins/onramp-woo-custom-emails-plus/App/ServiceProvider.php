@@ -5,9 +5,9 @@ namespace OnrampWooCustomEmailsPlus\App;
 use OnrampWooCustomEmailsPlus\OnrampMini\ServiceProvider\ServiceProviderBase;
 //
 use OnrampWooCustomEmailsPlus\App\Feature\ShowAllActions\ShowAllActions;
+use OnrampWooCustomEmailsPlus\App\Feature\TestOnly\TestOnly;
 use OnrampWooCustomEmailsPlus\App\Feature\PluginEnableMessage\PluginEnableMessage;
 use OnrampWooCustomEmailsPlus\App\Feature\DependencyCheck\DependencyCheck;
-use OnrampWooCustomEmailsPlus\App\Feature\TestOnly\TestOnly;
 //
 use OnrampWooCustomEmailsPlus\App\Feature\EmailTemplatePlus\EmailTemplatePlus;
 
@@ -17,7 +17,17 @@ use OnrampWooCustomEmailsPlus\App\Feature\EmailTemplatePlus\EmailTemplatePlus;
  */
 final class ServiceProvider extends ServiceProviderBase
 {
+    /**
+     *
+     */
+    public function init()
+    {
+        //
+    }
 
+    /**
+     *
+     */
     public function start()
     {
         // debug only, you can disable

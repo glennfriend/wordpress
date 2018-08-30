@@ -23,6 +23,12 @@ class ServiceProviderBase
     public function __construct(string $file)
     {
         $this->file = $file;
+        $this->init();
+    }
+
+    public function init()
+    {
+        // please rewrite
     }
 
     public function execute($class)
