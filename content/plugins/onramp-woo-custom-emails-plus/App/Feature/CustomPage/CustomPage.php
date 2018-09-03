@@ -14,6 +14,7 @@ class CustomPage
         $this->provider = $serviceProvider;
         $this->pageTitle = 'Onramp Set';
         $this->pageKey = $serviceProvider->key . 'page';
+        $this->menuId = $this->provider->key . 'menu';
 
         add_action('admin_menu', [$this, 'menu']);
         add_action('admin_init', [$this, 'free_1']);
@@ -33,7 +34,7 @@ class CustomPage
         // echo '</pre>';
 
         $pageTitle = $this->provider->name;
-        $this->optionName = $this->provider->key . 'setting';
+        $this->optionName = $this->provider->key . 'config';   // from database
         $this->capability = 'manage_options';
 
         // add top level menu page
@@ -57,13 +58,17 @@ class CustomPage
             return;
         }
 
+        //
         if (isset($_GET['settings-updated'])) {
             add_settings_error('show_messages', 'show_message', __('Settings Saved', $this->pageKey), 'updated');
         }
         // show error/update messages
         settings_errors('show_messages');
 
+        //
         $this->showForm();
+
+
     }
 
     protected function showForm()
@@ -82,42 +87,45 @@ class CustomPage
         echo '</div>';
     }
 
+    protected function registerSetting()
+    {
+        register_setting($this->pageKey, $this->optionName);
+
+        add_settings_section(
+            $this->menuId,
+            __('Title', $this->pageKey),
+            [$this, 'description'],
+            $this->pageKey
+        );
+    }
+
     // ================================================================================
     //  free 1
     // ================================================================================
 
     public function free_1()
     {
-        $id = $this->provider->key . 'free_1';
+        $this->registerSetting();
+
         $title = __('Free1 Setting', $this->pageKey);
         $saveKey = 'free1';
-
-        register_setting($this->pageKey, $this->optionName);
-
-        add_settings_section(
-            $id,
-            __('Title', $this->pageKey ),
-            [$this, 'description'],
-            $this->pageKey
-        );
 
         add_settings_field(
             $saveKey,
             $title,
             [$this, 'free_1_options'],
             $this->pageKey,
-            $id,
+            $this->menuId,
             [
                 'label_for' => $saveKey,
-                'class' => 'wporg_row',
                 'data_custom' => 'custom',
+                // 'class' => 'your_class_name', // 如果你要自定義自己的 class name
             ]
         );
     }
 
-    public function free_1_options( $args )
+    public function free_1_options($args)
     {
-        // from database
         $options = get_option($this->optionName);
 
         // echo '<pre style="margin-left:200px;">';
@@ -153,6 +161,5 @@ EOD;
         echo '</select>';
         echo '<p class="description">Free1 Description</p>';
     }
-
 
 }
