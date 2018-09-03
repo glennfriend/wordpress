@@ -68,6 +68,27 @@ class ServiceProviderBase
         // please rewrite
     }
 
+    public function buildPluginInformation()
+    {
+        /**
+         * Plugin Name:
+         * Plugin URI:
+         * Description:
+         * Version:
+         * Author: Onramp
+         * Author URI:
+         * Requires at least:
+         * Tested up to:
+         * Text Domain:
+         */
+        $this->build_plugin_info                = $this->build_plugin_info                  ?? [];
+        $this->build_plugin_info['plugin_name'] = $this->build_plugin_info['plugin_name']   ?? $this->name;
+        $this->build_plugin_info['plugin_uri']  = $this->build_plugin_info['plugin_uri']    ?? null;
+        $this->build_plugin_info['description'] = $this->build_plugin_info['description']   ?? null;
+        $this->build_plugin_info['author']      = $this->build_plugin_info['author']        ?? null;
+        $this->build_plugin_info['author_uri']  = $this->build_plugin_info['author_uri']    ?? null;
+    }
+
     public function execute($class)
     {
         (new $class($this))->perform($this);

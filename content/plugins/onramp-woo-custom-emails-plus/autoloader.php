@@ -29,12 +29,14 @@ function autoloader($filename) {
         $class_file .= ".php";
     }
 
+    // $fully_qualified_path = rtrim(__DIR__, '/\\') . '/';
     $fully_qualified_path = trailingslashit(__DIR__);
 
     $file_count = count($file_path);
     for ($i = 1; $i < $file_count - 1; $i++) {
         $dir = $file_path[$i];
         $fully_qualified_path .= trailingslashit($dir);
+        // $fully_qualified_path .= rtrim($dir, '/\\') . '/';
     }
     $fully_qualified_path .= $class_file;
 

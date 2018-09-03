@@ -15,7 +15,10 @@ final class ServiceProvider extends ServiceProviderBase
      */
     public function init()
     {
-        //
+        $this->build_plugin_info = [
+            'description' => 'Add some email template variables. Dependency by "Woo Custom Emails" v2.2',
+            'author'      => 'Onramp',
+        ];
     }
 
     /**
