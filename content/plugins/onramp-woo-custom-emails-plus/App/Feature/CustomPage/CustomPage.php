@@ -53,42 +53,41 @@ class CustomPage
 
     public function CustomPageHtml()
     {
-        // check user capabilities
         if (! current_user_can($this->capability)) {
             return;
         }
 
-        // add error/update messages
-        // check if the user have submitted the settings
-        // wordpress will add the "settings-updated" $_GET parameter to the url
         if (isset($_GET['settings-updated'])) {
-            // add settings saved message with the class of "updated"
             add_settings_error('show_messages', 'show_message', __('Settings Saved', $this->pageKey), 'updated');
         }
         // show error/update messages
         settings_errors('show_messages');
 
-        ?>
-        <div class="wrap">
-            <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
-            <form action="options.php" method="post">
-                <?php
-                settings_fields($this->pageKey);
-                do_settings_sections($this->pageKey);
-                submit_button('Save Settings');
-                ?>
-            </form>
-        </div>
-        <?php
+        $this->showForm();
     }
 
+    protected function showForm()
+    {
+        $title = esc_html(get_admin_page_title());
+
+        echo '<div class="wrap">';
+        echo "    <h1>{$title}</h1>";
+        echo '    <form action="options.php" method="post">';
+
+        settings_fields($this->pageKey);
+        do_settings_sections($this->pageKey);
+        submit_button('Save Settings');
+
+        echo '    </form>';
+        echo '</div>';
+    }
 
     // ================================================================================
     //  free 1
     // ================================================================================
 
-    public function free_1() {
-
+    public function free_1()
+    {
         $id = $this->provider->key . 'free_1';
         $title = __('Free1 Setting', $this->pageKey);
         $saveKey = 'free1';
@@ -111,7 +110,7 @@ class CustomPage
             [
                 'label_for' => $saveKey,
                 'class' => 'wporg_row',
-                'wporg_custom_data' => 'custom',
+                'data_custom' => 'custom',
             ]
         );
     }
@@ -125,8 +124,9 @@ class CustomPage
         // print_R($options);
         // echo '</pre>';
 
-        $id = esc_attr($args['label_for']);
-        $data = $args['wporg_custom_data'];
+        $labelFor = $args['label_for'];
+        $id = esc_attr($labelFor);
+        $data = $args['data_custom'];
         $name = "{$this->optionName}[{$id}]";
         $items = [
             'red'    => 'Red Option',
@@ -140,12 +140,12 @@ EOD;
 
         foreach ($items as $key => $show) {
             $focus = null;
-            if (isset($options[$args['label_for']])) {
-                $focus = selected($options[$args['label_for']], $key, false);
+            if (isset($options[$labelFor])) {
+                $focus = selected($options[$labelFor], $key, false);
             }
 
             echo '<option value="'. $key .'" '. $focus.'>';
-            echo esc_html_e($show, $this->pageKey);
+            echo    esc_html_e($show, $this->pageKey);
             echo '</option>';
             echo "\n";
         }
