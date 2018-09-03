@@ -3,14 +3,7 @@
 namespace OnrampWooCustomEmailsPlus\App;
 
 use OnrampWooCustomEmailsPlus\OnrampMini\ServiceProvider\ServiceProviderBase;
-//
-use OnrampWooCustomEmailsPlus\App\Feature\ShowAllActions\ShowAllActions;
-use OnrampWooCustomEmailsPlus\App\Feature\TestOnly\TestOnly;
-use OnrampWooCustomEmailsPlus\App\Feature\PluginEnableMessage\PluginEnableMessage;
-use OnrampWooCustomEmailsPlus\App\Feature\DependencyCheck\DependencyCheck;
-//
-use OnrampWooCustomEmailsPlus\App\Feature\EmailTemplatePlus\EmailTemplatePlus;
-
+use OnrampWooCustomEmailsPlus\App\Feature;
 
 /**
  * Class ServiceProvider
@@ -30,17 +23,28 @@ final class ServiceProvider extends ServiceProviderBase
      */
     public function start()
     {
-        // debug only, you can disable
-        // $this->execute(ShowAllActions::class);
-        // $this->execute(TestOnly::class);
+        // debug only
+        // $this->execute(Feature\ShowAllActions\ShowAllActions::class);
+        // $this->execute(Feature\TestOnly\TestOnly::class);
 
         // basic, you can disable
-        $this->execute(DependencyCheck::class);
-        $this->execute(PluginEnableMessage::class);
+        $this->execute(Feature\DependencyCheck\DependencyCheck::class);
+        $this->execute(Feature\PluginEnableMessage\PluginEnableMessage::class);
+        $this->execute(Feature\CustomPage\CustomPage::class);
 
         // your business
-        $this->execute(EmailTemplatePlus::class);
+        $this->execute(Feature\EmailTemplatePlus\EmailTemplatePlus::class);
+
     }
 
-
 }
+
+
+
+
+
+
+
+
+
+
