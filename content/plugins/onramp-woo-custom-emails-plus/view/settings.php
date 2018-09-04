@@ -8,7 +8,62 @@
 <?php
 
 $title = esc_html(get_admin_page_title());
+
+
+echo '<div class="wrap">';
+echo '    <h2>' . $title . '</h2>';
+echo '    <h2>' . $this->pageTitle . '</h2>';
+echo '    <form method="post" action="options.php">';
+
+settings_fields($this->pageId);
+do_settings_sections($this->saveName);
+submit_button();
+
+echo '    </form>';
+echo '</div>';
+
+
+
+/*
+settings_fields($this->pageId);
+do_settings_sections($this->pageId);
+submit_button();
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+echo '<pre>';
+print_r($this);
+print_r($views);
+echo $status;
+echo '</pre>';
+
+
+
+
+
+return;
+
+$title = esc_html(get_admin_page_title());
 $sgnonce = wp_create_nonce('sgnonce');
+
 
 echo '<div class="wrap">';
 echo "    <h1>{$title}</h1>";

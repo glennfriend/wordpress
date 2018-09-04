@@ -11,12 +11,182 @@ class Settings extends Controller
      */
     public function perform()
     {
-        $this->pageTitle = 'Onramp Set';
-        $this->pageId = $this->provider->key . 'settings';
-        $this->menuId = $this->provider->key . 'settings_menu';
+        $this->menuName = 'Onramp Set';
+        $this->pageTitle = $this->provider->name;
+        $this->pageId    = $this->provider->key . 'settings';
+        $this->menuId    = $this->provider->key . 'settings_menu';
+        $this->saveName = $this->provider->key . 'general';  // to database
 
-        add_action('init', [$this, 'set_up_menu']);
+        // add_action('init',       [$this, 'set_up_menu']);
+        //add_action('admin_menu', [$this, 'add_settings_menu']);
+        //add_action('admin_init', [$this, 'crunchify_hello_world_settings']);
+        //add_filter('the_content', [$this, 'crunchify_com_content']);
+
+        add_action('admin_menu', array( $this, 'settings_page' ) );
+        add_action('admin_init', array( $this, 'setup_init' ) );
     }
+
+    /**
+     *
+     */
+    public function settings_page()
+    {
+        $title      = '????';
+        $menu       = $this->menuName;
+        $capability = "manage_options";
+        $slug       = $this->pageId;
+        $callback   = [$this, 'settings_page_content'];
+        add_submenu_page('options-general.php', $title, $menu, $capability, $slug, $callback);
+    }
+
+    /**
+     * Create the page
+     */
+    public function settings_page_content()
+    {
+        echo '<div class="wrap">';
+        echo '    <h2>' . $this->pageTitle . '</h2>';
+        echo '    <form method="post" action="options.php">';
+
+        settings_fields($this->pageId);
+        do_settings_sections($this->saveName);
+        submit_button();
+
+        echo '    </form>';
+        echo '</div>';
+    }
+
+    public function setup_init()
+    {
+        $title = null;
+        register_setting($this->pageId, $this->saveName);
+        add_settings_section($this->pageId, $title, [$this, 'top_section'], $this->saveName);
+
+        //
+        $this->field_my_number();
+        $this->field_login_url();
+        $this->field_color();
+        $this->show_bar();
+    }
+
+    /**
+     * @param $arguments
+     */
+    public function top_section($arguments)
+    {
+        $isDebug = false;
+
+        if ($isDebug) {
+            echo '<pre>';
+            print_R($arguments);
+            echo '</pre>';
+        }
+    }
+
+    /**
+     *
+     */
+    public function field_my_number()
+    {
+        $func = function($name)
+        {
+            $options = get_option($this->saveName);
+            $field = "{$this->saveName}[{$name}]";
+            $value = $options[$name] ?? null;
+            echo <<<"EOD"
+                <input name="{$field}" type="text" value="{$value}">
+EOD;
+        };
+
+        $title = 'My Number';
+        $fieldName = "my_number";
+        add_settings_field($fieldName, $title, $func, $this->saveName, $this->pageId, $fieldName);
+    }
+
+    /**
+     *
+     */
+    public function field_login_url()
+    {
+        $func = function($name)
+        {
+            $options = get_option($this->saveName);
+            $field = "{$this->saveName}[{$name}]";
+            $value = $options[$name] ?? null;
+            echo <<<"EOD"
+                <input name="{$field}" type="text" value="{$value}">
+EOD;
+        };
+
+        $title = 'My Login Url';
+        $fieldName = "my_login_url";
+        add_settings_field($fieldName, $title, $func, $this->saveName, $this->pageId, $fieldName);
+    }
+
+    /**
+     *
+     */
+    function field_color()
+    {
+        $func = function($name)
+        {
+            $items = [
+                'red'    => 'Red Option',
+                'green'  => 'Green Option',
+                'yellow' => 'Yellow Option',
+            ];
+
+            $options = get_option($this->saveName);
+            $field = "{$this->saveName}[{$name}]";
+            $value = $options[$name] ?? null;
+
+            echo '<select name="' . $field .'">';
+
+            foreach ($items as $key => $show) {
+                $focus = null;
+                if ($key === $value) {
+                    $focus = selected($options[$name], $key, false);
+                }
+
+                echo '<option value="'. $key .'" '. $focus.'>';
+                echo    esc_html_e($show, $this->pageId);
+                echo '</option>';
+                echo "\n";
+            }
+
+            echo '</select>';
+            echo '<p class="description">Color Options</p>';
+
+        };
+
+        $title = 'My Color';
+        $fieldName = "my_color";
+        add_settings_field($fieldName, $title, $func, $this->saveName, $this->pageId, $fieldName);
+    }
+
+
+    /**
+     * @param $arguments
+     */
+    public function show_bar()
+    {
+        $func = function()
+        {
+            echo '<hr style="margin-top:7px; *margin: 0; border: 0; color: black; background-color: black; height: 1px">';
+        };
+
+        add_settings_field(uniqid(), null, $func, $this->saveName, $this->pageId, null);
+    }
+
+
+
+
+
+
+
+
+
+
 
     // ================================================================================
     //  menu
@@ -67,12 +237,23 @@ class Settings extends Controller
      */
     public function add_settings_menu()
     {
+        /*
         add_options_page(
             __($this->pageTitle),
             __($this->pageTitle),
             'manage_options',
             $this->pageId,
             [$this, 'show_settings_page']
+        );
+        */
+
+        add_submenu_page(
+            "options-general.php",
+            $this->pageTitle,
+            $this->pageTitle,
+            "manage_options",
+            $this->pageId,
+            [$this, "show_settings_page"]
         );
     }
 
@@ -104,11 +285,38 @@ class Settings extends Controller
 
 
 
+    /**
+     * Init setting section, Init setting field and register settings page
+     *
+     * @since 1.0
+     */
+    public function crunchify_hello_world_settings()
+    {
+        add_settings_section ( $this->saveName, "", null, $this->pageId );
+        add_settings_field ( "crunchify-hello-world-text", "This is sample Textbox", [$this, "input_1"], $this->pageId, $this->saveName);
+        register_setting ( $this->saveName, "crunchify-hello-world-text" );
+    }
 
 
 
+    public function input_1()
+    {
+        $value = stripslashes_deep ( esc_attr ( get_option ( "crunchify-hello-world-text" ) ) );
+
+echo '
+<div class="postbox" style="width: 65%; padding: 30px;">
+	<input type="text" name="crunchify-hello-world-text"
+		value="'. $value .'" /> Provide any text value here for testing<br />
+</div>
+';
+    }
 
 
+
+    public function crunchify_com_content($content)
+    {
+        return $content . stripslashes_deep(esc_attr(get_option('crunchify-hello-world-text')));
+    }
 
 
 
