@@ -148,7 +148,7 @@ EOD;
         foreach ($items as $value => $show) {
             $focus = null;
             if (isset($options[$labelFor])) {
-                $focus = selected($options[$labelFor], $key, false);
+                $focus = selected($options[$labelFor], $value, false);
             }
 
             echo '<option value="'. $value .'" '. $focus.'>';

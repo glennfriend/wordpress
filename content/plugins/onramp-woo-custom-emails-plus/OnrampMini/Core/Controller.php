@@ -2,6 +2,7 @@
 
 namespace OnrampWooCustomEmailsPlus\OnrampMini\Core;
 
+use Exception;
 use OnrampWooCustomEmailsPlus\App\ServiceProvider;
 
 /**
@@ -33,9 +34,9 @@ class Controller
      */
     public function view(string $name, Array $params)
     {
-        $file = realpath(dirname($this->provider->file) . '/view/' . $name . '.php');
+        $file = dirname($this->provider->file) . '/view/' . $name . '.php';
         if (! file_exists($file)) {
-            throw new Exception('view file not exists: ' . $file);
+            throw new Exception('view file not exists: "' . $file . '"');
         }
 
         //

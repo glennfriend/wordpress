@@ -14,7 +14,6 @@ class Settings extends Controller
         $this->pageTitle = 'Onramp Set';
         $this->pageId = $this->provider->key . 'settings';
         $this->menuId = $this->provider->key . 'settings_menu';
-        //$this->provider = $provider;
 
         add_action('init', [$this, 'set_up_menu']);
     }
@@ -34,30 +33,29 @@ class Settings extends Controller
 
         if ((! is_multisite() and current_user_can('manage_options')) || (is_multisite() and ! is_main_site() and get_option($this->pageId)) ) {
 
-            echo '<pre style="margin-left:200px;">111</pre>';
+            // echo '<pre style="margin-left:200px;">111</pre>';
 
             add_action('admin_menu', [$this, 'add_settings_menu']);
 
-            // Add SendGrid settings page in the plugin list
-            //add_filter( 'plugin_action_links_' . self::$plugin_directory, array( __CLASS__, 'add_settings_link' ) );
+            // Add settings page in the plugin list
 
         } elseif ( is_multisite() and is_main_site() ) {
 
-            echo '<pre style="margin-left:200px;">222</pre>';
+            // echo '<pre style="margin-left:200px;">222</pre>';
 
-            // Add SendGrid settings page in the network admin menu
-            //add_action( 'network_admin_menu', array( __CLASS__, 'add_network_settings_menu' ) );
+            // Add settings page in the network admin menu
 
         }
         else {
 
-            echo '<pre style="margin-left:200px;">333</pre>';
+            // echo '<pre style="margin-left:200px;">333</pre>';
 
         }
-        // Add SendGrid Help contextual menu in the settings page
+
+        // Add Help contextual menu in the settings page
         //add_filter( 'contextual_help', array( __CLASS__, 'show_contextual_help' ), 10, 3 );
 
-        // Add SendGrid javascripts in header
+        // Add javascripts in header
         // add_action( 'admin_enqueue_scripts', array( __CLASS__, 'add_headers' ) );
 
     }
@@ -141,27 +139,8 @@ class Settings extends Controller
         // show error/update messages
         settings_errors('show_messages');
 
-        //
-        $this->showForm();
-
-
     }
 
-    protected function showForm()
-    {
-        $title = esc_html(get_admin_page_title());
-
-        echo '<div class="wrap">';
-        echo "    <h1>{$title}</h1>";
-        echo '    <form action="options.php" method="post">';
-
-        settings_fields($this->pageId);
-        do_settings_sections($this->pageId);
-        submit_button('Save Settings');
-
-        echo '    </form>';
-        echo '</div>';
-    }
 
     protected function registerSetting()
     {
