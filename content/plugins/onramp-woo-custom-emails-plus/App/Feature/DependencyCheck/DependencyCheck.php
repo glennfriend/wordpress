@@ -13,7 +13,13 @@ class DependencyCheck
         $this->display = new WordpressDispaly();
 
         add_action('admin_init', [$this, 'dependencyPluginCheck']);
-        add_action('admin_init', [$this, 'phpVersionCheck']);
+
+        //
+        if (! $this->phpVersionCheck()) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -36,9 +42,10 @@ class DependencyCheck
         if (version_compare(phpversion(), $phpVersionDefine, '<')) {
             $this->display->error("Plugin requires PHP >= {$phpVersionDefine}");
             $this->display->showAll();
+            return false;
         }
+
+        return true;
     }
-
-
 
 }

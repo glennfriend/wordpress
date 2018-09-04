@@ -91,6 +91,7 @@ class ServiceProviderBase
 
     public function execute($class)
     {
-        (new $class($this))->perform($this);
+        return (new $class($this))->perform($this);
     }
+
 }
