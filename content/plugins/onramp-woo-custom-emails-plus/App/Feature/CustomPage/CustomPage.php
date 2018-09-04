@@ -146,20 +146,23 @@ class CustomPage
             <select id="{$id}" data-custom="{$data}" name="{$name}">
 EOD;
 
-        foreach ($items as $key => $show) {
+        foreach ($items as $value => $show) {
             $focus = null;
             if (isset($options[$labelFor])) {
-                $focus = selected($options[$labelFor], $key, false);
+                $focus = selected($options[$labelFor], $value, false);
             }
 
-            echo '<option value="'. $key .'" '. $focus.'>';
+            echo '<option value="'. $value .'" '. $focus.'>';
             echo    esc_html_e($show, $this->pageKey);
             echo '</option>';
             echo "\n";
         }
 
-        echo '</select>';
-        echo '<p class="description">Free1 Description</p>';
+        echo  <<<"EOD"
+            </select>
+            <p class="description">Free1 Description</p>
+EOD;
+
     }
 
 }
