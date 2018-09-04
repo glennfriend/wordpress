@@ -14,6 +14,7 @@ class CustomPage extends Controller
         $this->pageTitle = 'Onramp Set';
         $this->pageKey = $this->provider->key . 'page';
         $this->menuId = $this->provider->key . 'menu';
+        $this->optionName = $this->provider->key . 'config';   // from database
 
         add_action('admin_menu', [$this, 'menu']);
         add_action('admin_init', [$this, 'free_1']);
@@ -33,7 +34,6 @@ class CustomPage extends Controller
         // echo '</pre>';
 
         $pageTitle = $this->provider->name;
-        $this->optionName = $this->provider->key . 'config';   // from database
         $this->capability = 'manage_options';
 
         // add top level menu page
