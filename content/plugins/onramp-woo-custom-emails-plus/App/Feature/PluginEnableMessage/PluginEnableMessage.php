@@ -2,19 +2,20 @@
 
 namespace OnrampWooCustomEmailsPlus\App\Feature\PluginEnableMessage;
 
-use OnrampWooCustomEmailsPlus\App\ServiceProvider;
+use OnrampWooCustomEmailsPlus\OnrampMini\Core\Controller;
 use OnrampWooCustomEmailsPlus\OnrampMini\Lib\WordpressDispaly;
 use OnrampWooCustomEmailsPlus\OnrampMini\Lib\WordpressPluginHelper;
 
-
-class PluginEnableMessage
+class PluginEnableMessage extends Controller
 {
-
-    public function perform(ServiceProvider $provider)
+    /**
+     *
+     */
+    public function perform()
     {
-        $file = $provider->file;
+        $file = $this->provider->file;
         $this->display = new WordpressDispaly();
-        $this->helper = new WordpressPluginHelper(dirname($provider->file));
+        $this->helper = new WordpressPluginHelper(dirname($this->provider->file));
 
         $cacheName = $this->helper->getNamespace() . '_activate_plugin_trigger';
 

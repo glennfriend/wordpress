@@ -2,15 +2,17 @@
 
 namespace OnrampWooCustomEmailsPlus\App\Feature\EmailTemplatePlus;
 
-use OnrampWooCustomEmailsPlus\App\ServiceProvider;
+use OnrampWooCustomEmailsPlus\OnrampMini\Core\Controller;
 use OnrampWooCustomEmailsPlus\App\Feature\EmailTemplatePlus\Template;
 
-class EmailTemplatePlus
+class EmailTemplatePlus extends Controller
 {
-
-    public function perform(ServiceProvider $provider)
+    /**
+     *
+     */
+    public function perform()
     {
-        $priority = $provider->priority;
+        $priority = $this->provider->priority;
 
         add_filter('wcemails_find_placeholders', [$this, 'replaceTemplate'], $priority, 2);
     }

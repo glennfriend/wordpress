@@ -1,10 +1,10 @@
 <?php
 
-namespace OnrampWooCustomEmailsPlus\App\Feature\CustomPage;
+namespace OnrampWooCustomEmailsPlus\App\Feature\Settings;
 
 use OnrampWooCustomEmailsPlus\OnrampMini\Core\Controller;
 
-class CustomPage extends Controller
+class Settings extends Controller
 {
     /**
      *
@@ -12,11 +12,11 @@ class CustomPage extends Controller
     public function perform()
     {
         $this->pageTitle = 'Onramp Set';
-        $this->pageKey = $this->provider->key . 'page';
-        $this->menuId = $this->provider->key . 'menu';
+        $this->pageId = $this->provider->key . 'settings';
+        $this->menuId = $this->provider->key . 'settings_menu';
+        //$this->provider = $provider;
 
-        add_action('admin_menu', [$this, 'menu']);
-        add_action('admin_init', [$this, 'free_1']);
+        add_action('init', [$this, 'set_up_menu']);
     }
 
     // ================================================================================
@@ -26,25 +26,102 @@ class CustomPage extends Controller
     /**
      * top level menu
      */
-    public function menu()
+    public function set_up_menu()
     {
         // echo '<pre style="margin-left:200px;">';
         // print_R($this->provider);
         // echo '</pre>';
 
-        $pageTitle = $this->provider->name;
-        $this->optionName = $this->provider->key . 'config';   // from database
-        $this->capability = 'manage_options';
+        if ((! is_multisite() and current_user_can('manage_options')) || (is_multisite() and ! is_main_site() and get_option($this->pageId)) ) {
 
-        // add top level menu page
-        add_menu_page(
-            $pageTitle,
-            $this->pageTitle,
-            $this->capability,
-            $this->pageKey,
-            [$this, 'CustomPageHtml']
+            echo '<pre style="margin-left:200px;">111</pre>';
+
+            add_action('admin_menu', [$this, 'add_settings_menu']);
+
+            // Add SendGrid settings page in the plugin list
+            //add_filter( 'plugin_action_links_' . self::$plugin_directory, array( __CLASS__, 'add_settings_link' ) );
+
+        } elseif ( is_multisite() and is_main_site() ) {
+
+            echo '<pre style="margin-left:200px;">222</pre>';
+
+            // Add SendGrid settings page in the network admin menu
+            //add_action( 'network_admin_menu', array( __CLASS__, 'add_network_settings_menu' ) );
+
+        }
+        else {
+
+            echo '<pre style="margin-left:200px;">333</pre>';
+
+        }
+        // Add SendGrid Help contextual menu in the settings page
+        //add_filter( 'contextual_help', array( __CLASS__, 'show_contextual_help' ), 10, 3 );
+
+        // Add SendGrid javascripts in header
+        // add_action( 'admin_enqueue_scripts', array( __CLASS__, 'add_headers' ) );
+
+    }
+
+    /**
+     * Add settings page in the menu
+     *
+     * @return void
+     */
+    public function add_settings_menu()
+    {
+        add_options_page(
+            __($this->pageTitle),
+            __($this->pageTitle),
+            'manage_options',
+            $this->pageId,
+            [$this, 'show_settings_page']
         );
     }
+
+    /**
+     * Display settings page content
+     *
+     * @return void
+     */
+    public function show_settings_page()
+    {
+        $response = null;
+        $error_from_update = false;
+
+        /*
+        if ( 'POST' == $_SERVER['REQUEST_METHOD'] and ! isset( $_POST['sg_dismiss_widget_notice'] ) ) {
+            $response = self::do_post( $_POST );
+            if ( isset( $response['status'] ) and $response['status'] == 'error' ) {
+                $error_from_update = true;
+            }
+        }
+        */
+
+        $views = [
+            'status' => 111,
+            'message' => '222',
+        ];
+        $this->view('settings', $views);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function description($args)
     {
@@ -59,7 +136,7 @@ class CustomPage extends Controller
 
         //
         if (isset($_GET['settings-updated'])) {
-            add_settings_error('show_messages', 'show_message', __('Settings Saved', $this->pageKey), 'updated');
+            add_settings_error('show_messages', 'show_message', __('Settings Saved', $this->pageId), 'updated');
         }
         // show error/update messages
         settings_errors('show_messages');
@@ -78,8 +155,8 @@ class CustomPage extends Controller
         echo "    <h1>{$title}</h1>";
         echo '    <form action="options.php" method="post">';
 
-        settings_fields($this->pageKey);
-        do_settings_sections($this->pageKey);
+        settings_fields($this->pageId);
+        do_settings_sections($this->pageId);
         submit_button('Save Settings');
 
         echo '    </form>';
@@ -88,13 +165,13 @@ class CustomPage extends Controller
 
     protected function registerSetting()
     {
-        register_setting($this->pageKey, $this->optionName);
+        register_setting($this->pageId, $this->optionName);
 
         add_settings_section(
             $this->menuId,
-            __('Title', $this->pageKey),
+            __('Title', $this->pageId),
             [$this, 'description'],
-            $this->pageKey
+            $this->pageId
         );
     }
 
@@ -106,14 +183,14 @@ class CustomPage extends Controller
     {
         $this->registerSetting();
 
-        $title = __('Free1 Setting', $this->pageKey);
+        $title = __('Free1 Setting', $this->pageId);
         $saveKey = 'free1';
 
         add_settings_field(
             $saveKey,
             $title,
             [$this, 'free_1_options'],
-            $this->pageKey,
+            $this->pageId,
             $this->menuId,
             [
                 'label_for' => $saveKey,
@@ -148,11 +225,11 @@ EOD;
         foreach ($items as $value => $show) {
             $focus = null;
             if (isset($options[$labelFor])) {
-                $focus = selected($options[$labelFor], $key, false);
+                $focus = selected($options[$labelFor], $value, false);
             }
 
             echo '<option value="'. $value .'" '. $focus.'>';
-            echo    esc_html_e($show, $this->pageKey);
+            echo    esc_html_e($show, $this->pageId);
             echo '</option>';
             echo "\n";
         }

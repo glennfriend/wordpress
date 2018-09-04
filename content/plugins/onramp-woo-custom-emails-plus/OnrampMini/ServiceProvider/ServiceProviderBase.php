@@ -2,6 +2,8 @@
 
 namespace OnrampWooCustomEmailsPlus\OnrampMini\ServiceProvider;
 
+use Exception;
+
 /**
  * Class ServiceProvider
  */
@@ -68,6 +70,9 @@ class ServiceProviderBase
         // please rewrite
     }
 
+    /**
+     * 產生 plugin main 程式的時候要使用到的資訊
+     */
     public function buildPluginInformation()
     {
         /**
@@ -91,7 +96,7 @@ class ServiceProviderBase
 
     public function execute($class)
     {
-        return (new $class($this))->perform($this);
+        return (new $class($this))->perform();
     }
 
 }

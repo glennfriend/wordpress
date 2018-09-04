@@ -2,13 +2,15 @@
 
 namespace OnrampWooCustomEmailsPlus\App\Feature\DependencyCheck;
 
-use OnrampWooCustomEmailsPlus\App\ServiceProvider;
+use OnrampWooCustomEmailsPlus\OnrampMini\Core\Controller;
 use OnrampWooCustomEmailsPlus\OnrampMini\Lib\WordpressDispaly;
 
-class DependencyCheck
+class DependencyCheck extends Controller
 {
-
-    public function perform(ServiceProvider $provider)
+    /**
+     * @return bool
+     */
+    public function perform()
     {
         $this->display = new WordpressDispaly();
 

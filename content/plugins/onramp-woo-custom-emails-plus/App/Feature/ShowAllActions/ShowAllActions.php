@@ -2,13 +2,13 @@
 
 namespace OnrampWooCustomEmailsPlus\App\Feature\ShowAllActions;
 
-use OnrampWooCustomEmailsPlus\App\ServiceProvider;
+use OnrampWooCustomEmailsPlus\OnrampMini\Core\Controller;
 use OnrampWooCustomEmailsPlus\OnrampMini\Lib\WordpressDispaly;
 
-class ShowAllActions
+class ShowAllActions extends Controller
 {
 
-    public function perform(ServiceProvider $provider)
+    public function perform()
     {
         if (WP_DEBUG && true) {
             add_action('shutdown', [$this, 'showAllActions']);

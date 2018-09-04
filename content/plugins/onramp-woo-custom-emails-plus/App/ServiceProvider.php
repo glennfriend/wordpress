@@ -26,20 +26,29 @@ final class ServiceProvider extends ServiceProviderBase
      */
     public function start()
     {
+        //
+        // check
+        //
         if (! $this->execute(Feature\DependencyCheck\DependencyCheck::class)) {
             return false;
         }
 
+        //
         // debug only
+        //
         // $this->execute(Feature\ShowAllActions\ShowAllActions::class);
         // $this->execute(Feature\TestOnly\TestOnly::class);
 
+        //
         // basic, you can disable
-
+        //
         $this->execute(Feature\PluginEnableMessage\PluginEnableMessage::class);
         $this->execute(Feature\CustomPage\CustomPage::class);
+        $this->execute(Feature\Settings\Settings::class);
 
+        //
         // your business
+        //
         $this->execute(Feature\EmailTemplatePlus\EmailTemplatePlus::class);
 
     }
