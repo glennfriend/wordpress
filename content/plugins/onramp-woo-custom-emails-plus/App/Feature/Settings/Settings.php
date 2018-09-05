@@ -41,25 +41,32 @@ class Settings extends Controller
             $menu,
             "manage_options",
             $slug,
-            [$this, 'settings_page_content']
+            [$this, 'settings_view']
         );
     }
 
     /**
      * Create the page
      */
-    public function settings_page_content()
+    public function settings_view()
     {
-        echo '<div class="wrap">';
-        echo '    <h2>' . $this->pageTitle . '</h2>';
-        echo '    <form method="post" action="options.php">';
+        $tabs = [
+            'general' => 'General',
+            'document' => 'Document',
+        ];
 
-        settings_fields($this->pageId);
-        do_settings_sections($this->saveName);
-        submit_button();
+        $tabFocus = $_GET['tab'] ?? 'general';
+        if (! array_key_exists($tabFocus, $tabs)) {
+            $tabFocus = array_keys($tabs)[0];
+        }
 
-        echo '    </form>';
-        echo '</div>';
+        $views = [
+            'tabs' => $tabs,
+            'tabFocus' => $tabFocus,
+            'status' => 111,
+            'message' => '222',
+        ];
+        $this->view('settings', $views);
     }
 
     public function setup_init()
@@ -174,9 +181,8 @@ EOD;
         add_settings_field($fieldName, $title, $func, $this->saveName, $this->pageId, $fieldName);
     }
 
-
     /**
-     * @param $arguments
+     *
      */
     public function show_bar()
     {
@@ -187,112 +193,6 @@ EOD;
 
         add_settings_field(uniqid(), null, $func, $this->saveName, $this->pageId, null);
     }
-
-
-
-
-
-
-
-
-
-
-
-    // ================================================================================
-    //  menu
-    // ================================================================================
-
-    /**
-     * top level menu
-     */
-    public function set_up_menu()
-    {
-        // echo '<pre style="margin-left:200px;">';
-        // print_R($this->provider);
-        // echo '</pre>';
-
-        if ((! is_multisite() and current_user_can('manage_options')) || (is_multisite() and ! is_main_site() and get_option($this->pageId)) ) {
-
-            // echo '<pre style="margin-left:200px;">111</pre>';
-
-            add_action('admin_menu', [$this, 'add_settings_menu']);
-
-            // Add settings page in the plugin list
-
-        } elseif ( is_multisite() and is_main_site() ) {
-
-            // echo '<pre style="margin-left:200px;">222</pre>';
-
-            // Add settings page in the network admin menu
-
-        }
-        else {
-
-            // echo '<pre style="margin-left:200px;">333</pre>';
-
-        }
-
-        // Add Help contextual menu in the settings page
-        //add_filter( 'contextual_help', array( __CLASS__, 'show_contextual_help' ), 10, 3 );
-
-        // Add javascripts in header
-        // add_action( 'admin_enqueue_scripts', array( __CLASS__, 'add_headers' ) );
-
-    }
-
-    /**
-     * Add settings page in the menu
-     *
-     * @return void
-     */
-    public function add_settings_menu()
-    {
-        /*
-        add_options_page(
-            __($this->pageTitle),
-            __($this->pageTitle),
-            'manage_options',
-            $this->pageId,
-            [$this, 'show_settings_page']
-        );
-        */
-
-        add_submenu_page(
-            "options-general.php",
-            $this->pageTitle,
-            $this->pageTitle,
-            "manage_options",
-            $this->pageId,
-            [$this, "show_settings_page"]
-        );
-    }
-
-    /**
-     * Display settings page content
-     *
-     * @return void
-     */
-    public function show_settings_page()
-    {
-        $response = null;
-        $error_from_update = false;
-
-        /*
-        if ( 'POST' == $_SERVER['REQUEST_METHOD'] and ! isset( $_POST['sg_dismiss_widget_notice'] ) ) {
-            $response = self::do_post( $_POST );
-            if ( isset( $response['status'] ) and $response['status'] == 'error' ) {
-                $error_from_update = true;
-            }
-        }
-        */
-
-        $views = [
-            'status' => 111,
-            'message' => '222',
-        ];
-        $this->view('settings', $views);
-    }
-
 
 
 }
