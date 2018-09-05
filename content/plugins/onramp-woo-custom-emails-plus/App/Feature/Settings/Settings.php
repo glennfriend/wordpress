@@ -31,12 +31,18 @@ class Settings extends Controller
      */
     public function settings_page()
     {
-        $title      = '????';
-        $menu       = $this->menuName;
-        $capability = "manage_options";
-        $slug       = $this->pageId;
-        $callback   = [$this, 'settings_page_content'];
-        add_submenu_page('options-general.php', $title, $menu, $capability, $slug, $callback);
+        $title  = $this->pageTitle;
+        $menu   = $this->menuName;
+        $slug   = $this->pageId;
+
+        add_submenu_page(
+            'options-general.php',
+            $title,
+            $menu,
+            "manage_options",
+            $slug,
+            [$this, 'settings_page_content']
+        );
     }
 
     /**
@@ -62,8 +68,8 @@ class Settings extends Controller
         register_setting($this->pageId, $this->saveName);
         add_settings_section($this->pageId, $title, [$this, 'top_section'], $this->saveName);
 
-        //
-        $this->field_my_number();
+        // TODO: 沒有做 進入 options.php 的 filter & check
+        $this->field_number();
         $this->field_login_url();
         $this->field_color();
         $this->show_bar();
@@ -83,23 +89,27 @@ class Settings extends Controller
         }
     }
 
+    // ================================================================================
+    //  input fields
+    // ================================================================================
+
     /**
      *
      */
-    public function field_my_number()
+    public function field_number()
     {
         $func = function($name)
         {
             $options = get_option($this->saveName);
             $field = "{$this->saveName}[{$name}]";
-            $value = $options[$name] ?? null;
+            $value = $options[$name];
             echo <<<"EOD"
                 <input name="{$field}" type="text" value="{$value}">
 EOD;
         };
 
         $title = 'My Number';
-        $fieldName = "my_number";
+        $fieldName = "number";
         add_settings_field($fieldName, $title, $func, $this->saveName, $this->pageId, $fieldName);
     }
 
@@ -112,14 +122,14 @@ EOD;
         {
             $options = get_option($this->saveName);
             $field = "{$this->saveName}[{$name}]";
-            $value = $options[$name] ?? null;
+            $value = $options[$name];
             echo <<<"EOD"
                 <input name="{$field}" type="text" value="{$value}">
 EOD;
         };
 
-        $title = 'My Login Url';
-        $fieldName = "my_login_url";
+        $title = 'Login Url';
+        $fieldName = "login_url";
         add_settings_field($fieldName, $title, $func, $this->saveName, $this->pageId, $fieldName);
     }
 
@@ -138,7 +148,7 @@ EOD;
 
             $options = get_option($this->saveName);
             $field = "{$this->saveName}[{$name}]";
-            $value = $options[$name] ?? null;
+            $value = $options[$name];
 
             echo '<select name="' . $field .'">';
 
@@ -160,7 +170,7 @@ EOD;
         };
 
         $title = 'My Color';
-        $fieldName = "my_color";
+        $fieldName = "color";
         add_settings_field($fieldName, $title, $func, $this->saveName, $this->pageId, $fieldName);
     }
 
@@ -284,148 +294,5 @@ EOD;
     }
 
 
-
-    /**
-     * Init setting section, Init setting field and register settings page
-     *
-     * @since 1.0
-     */
-    public function crunchify_hello_world_settings()
-    {
-        add_settings_section ( $this->saveName, "", null, $this->pageId );
-        add_settings_field ( "crunchify-hello-world-text", "This is sample Textbox", [$this, "input_1"], $this->pageId, $this->saveName);
-        register_setting ( $this->saveName, "crunchify-hello-world-text" );
-    }
-
-
-
-    public function input_1()
-    {
-        $value = stripslashes_deep ( esc_attr ( get_option ( "crunchify-hello-world-text" ) ) );
-
-echo '
-<div class="postbox" style="width: 65%; padding: 30px;">
-	<input type="text" name="crunchify-hello-world-text"
-		value="'. $value .'" /> Provide any text value here for testing<br />
-</div>
-';
-    }
-
-
-
-    public function crunchify_com_content($content)
-    {
-        return $content . stripslashes_deep(esc_attr(get_option('crunchify-hello-world-text')));
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-    public function description($args)
-    {
-        echo 'title description.';
-    }
-
-    public function CustomPageHtml()
-    {
-        if (! current_user_can($this->capability)) {
-            return;
-        }
-
-        //
-        if (isset($_GET['settings-updated'])) {
-            add_settings_error('show_messages', 'show_message', __('Settings Saved', $this->pageId), 'updated');
-        }
-        // show error/update messages
-        settings_errors('show_messages');
-
-    }
-
-
-    protected function registerSetting()
-    {
-        register_setting($this->pageId, $this->optionName);
-
-        add_settings_section(
-            $this->menuId,
-            __('Title', $this->pageId),
-            [$this, 'description'],
-            $this->pageId
-        );
-    }
-
-    // ================================================================================
-    //  free 1
-    // ================================================================================
-
-    public function free_1()
-    {
-        $this->registerSetting();
-
-        $title = __('Free1 Setting', $this->pageId);
-        $saveKey = 'free1';
-
-        add_settings_field(
-            $saveKey,
-            $title,
-            [$this, 'free_1_options'],
-            $this->pageId,
-            $this->menuId,
-            [
-                'label_for' => $saveKey,
-                'data_custom' => 'custom',
-                // 'class' => 'your_class_name', // 如果你要自定義自己的 class name
-            ]
-        );
-    }
-
-    public function free_1_options($args)
-    {
-        $options = get_option($this->optionName);
-
-        // echo '<pre style="margin-left:200px;">';
-        // print_R($options);
-        // echo '</pre>';
-
-        $labelFor = $args['label_for'];
-        $id = esc_attr($labelFor);
-        $data = $args['data_custom'];
-        $name = "{$this->optionName}[{$id}]";
-        $items = [
-            'red'    => 'Red Option',
-            'green'  => 'Green Option',
-            'yellow' => 'Yellow Option',
-        ];
-
-        echo  <<<"EOD"
-            <select id="{$id}" data-custom="{$data}" name="{$name}">
-EOD;
-
-        foreach ($items as $value => $show) {
-            $focus = null;
-            if (isset($options[$labelFor])) {
-                $focus = selected($options[$labelFor], $value, false);
-            }
-
-            echo '<option value="'. $value .'" '. $focus.'>';
-            echo    esc_html_e($show, $this->pageId);
-            echo '</option>';
-            echo "\n";
-        }
-
-        echo  <<<"EOD"
-            </select>
-            <p class="description">Free1 Description</p>
-EOD;
-
-    }
 
 }

@@ -40,11 +40,15 @@ final class ServiceProvider extends ServiceProviderBase
         // $this->execute(Feature\TestOnly\TestOnly::class);
 
         //
-        // basic, you can disable
+        // enable momentary to do
         //
         $this->execute(Feature\PluginEnableMessage\PluginEnableMessage::class);
-        $this->execute(Feature\CustomPage\CustomPage::class);
-        $this->execute(Feature\Settings\Settings::class);
+
+        //
+        // setting page
+        //
+        // $this->execute(Feature\CustomPage\CustomPage::class);   // 設定選項 獨立一個選項
+        $this->execute(Feature\Settings\Settings::class);       // 設定選項 在 Settings 之下
 
         //
         // your business
