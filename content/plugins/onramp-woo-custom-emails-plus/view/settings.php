@@ -13,24 +13,20 @@
             echo '<a href="?page='. $pageId . '&tab='. $tab .'" class="nav-tab ' . $focus . '">' . $show . '</a>';
         }
         echo '</h2>';
-
     };
 
     $displayForm = function()
     {
         $title = esc_html(get_admin_page_title());
 
-        echo '<div class="wrap">';
-        echo '    <h2>' . $title . '</h2>';
-        echo '    <form method="post" action="options.php">';
+        echo '<h2>' . $title . '</h2>';
+        echo '<form method="post" action="options.php">';
 
         settings_fields($this->pageId);
         do_settings_sections($this->saveName);
         submit_button();
 
-        echo '    </form>';
-        echo '</div>';
-
+        echo '</form>';
     };
 
     $dispalyDebug = function() use ($views)
@@ -44,7 +40,8 @@
 
 
 
-    $displayNav();
-    $displayForm();
-    $dispalyDebug();
-
+    echo '<div class="wrap">';
+        $displayNav();
+        $displayForm();
+        $dispalyDebug();
+    echo '</div>';

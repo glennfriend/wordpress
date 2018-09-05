@@ -14,13 +14,7 @@ class Settings extends Controller
         $this->menuName = 'Onramp Set';
         $this->pageTitle = $this->provider->name;
         $this->pageId    = $this->provider->key . 'settings';
-        $this->menuId    = $this->provider->key . 'settings_menu';
         $this->saveName = $this->provider->key . 'general';  // to database
-
-        // add_action('init',       [$this, 'set_up_menu']);
-        //add_action('admin_menu', [$this, 'add_settings_menu']);
-        //add_action('admin_init', [$this, 'crunchify_hello_world_settings']);
-        //add_filter('the_content', [$this, 'crunchify_com_content']);
 
         add_action('admin_menu', array( $this, 'settings_page' ) );
         add_action('admin_init', array( $this, 'setup_init' ) );
@@ -63,8 +57,6 @@ class Settings extends Controller
         $views = [
             'tabs' => $tabs,
             'tabFocus' => $tabFocus,
-            'status' => 111,
-            'message' => '222',
         ];
         $this->view('settings', $views);
     }
@@ -91,7 +83,7 @@ class Settings extends Controller
 
         if ($isDebug) {
             echo '<pre>';
-            print_R($arguments);
+            print_r($arguments);
             echo '</pre>';
         }
     }
