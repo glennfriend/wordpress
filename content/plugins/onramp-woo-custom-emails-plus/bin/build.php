@@ -13,18 +13,10 @@ $build = function()
     $_SERVER['SERVER_PROTOCOL'] = null;
 
 
-    // composer
-    echo "load composer autoload.php           => ";
-    $composerAutoload = realpath(__DIR__ . '/../../../../vendor/autoload.php');
-    if ($composerAutoload) {
-        require_once $composerAutoload;
-        echo "Success\n";
-    }
-    else {
-        echo "Fail\n";
-    }
 
-    // wordpress (位置可能不同)
+    // ================================================================================
+    //  wordpress (位置可能不同)
+    // ================================================================================
     echo "load wordpress wp-blog-header.php    => ";
     $wordpressBlogHeader = realpath(__DIR__ . '/../../../../wordpress/wp-blog-header.php');
     if ($wordpressBlogHeader) {
@@ -38,7 +30,33 @@ $build = function()
         exit;
     }
 
-    // plugin
+
+    // ================================================================================
+    //  load plugin composer autoload.php
+    // ================================================================================
+    // 暫時略過
+    // 不確定多個 composer autoload 能不能併存
+    // 就算能併存也可能會有 衝突 的可能
+
+
+    // ================================================================================
+    //  wordpress composer
+    // ================================================================================
+    echo "load composer autoload.php           => ";
+    // or ABSPATH . '../vdndor/autoload.php'
+    $composerAutoload = realpath(__DIR__ . '/../../../../vendor/autoload.php');
+    if ($composerAutoload) {
+        require_once $composerAutoload;
+        echo "Success\n";
+    }
+    else {
+        echo "Fail\n";
+    }
+
+
+    // ================================================================================
+    //  plugin autoloader
+    // ================================================================================
     echo "load plugin namespace autoloader.php => ";
     $pluginAutoloader = realpath(__DIR__ . '/../autoloader.php');
     if ($pluginAutoloader) {
@@ -51,10 +69,13 @@ $build = function()
     }
 
 
-    // build plugin main php
+    // ================================================================================
+    //  build plugin main php
+    // ================================================================================
     $pluginFolder = realpath(__DIR__ . '/..');
     $filename = basename($pluginFolder) . '.php';
     $file = $pluginFolder . '/' . $filename;
+
 
     // ================================================================================
     //  check
@@ -67,6 +88,7 @@ $build = function()
         exit;
     }
 
+
     // ================================================================================
     //  get information
     // ================================================================================
@@ -76,6 +98,7 @@ $build = function()
 
     extract($provider->build_plugin_info);
     $className = ServiceProvider::class;
+
 
     // ================================================================================
     //  template
@@ -111,11 +134,13 @@ if (! class_exists(ServiceProvider::class)) {
 
 EOD;
 
+
     // ================================================================================
     //  build
     // ================================================================================
     $template = '<' . '?' . 'php' . "\n" . $template . "\n";
     file_put_contents($file , $template);
+
 
     // ================================================================================
     //  check
