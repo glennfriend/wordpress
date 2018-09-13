@@ -12,7 +12,7 @@ class Settings extends Controller
     public function perform()
     {
         //
-        $defaultTab = SettingsGeneral::TAB;
+        $this->tabFocus = SettingsDocument::TAB;
         $this->tabs = [
             SettingsGeneral::TAB    => SettingsGeneral::class,
             SettingsDocument::TAB   => SettingsDocument::class,
@@ -24,7 +24,11 @@ class Settings extends Controller
         $this->saveName  = null;    // save to database
 
         // wordpress form 的基本框架
-        $this->tabFocus = $_GET['tab'] ?? $defaultTab;
+        if (isset($_GET['tab'])) {
+            $this->tabFocus = $_GET['tab'];
+        }
+
+
         if (! array_key_exists($this->tabFocus, $this->tabs)) {
             $this->tabFocus = array_keys($this->tabs)[0];
         }

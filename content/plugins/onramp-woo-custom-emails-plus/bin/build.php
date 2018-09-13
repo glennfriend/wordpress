@@ -7,12 +7,13 @@ use OnrampWooCustomEmailsPlus\App\ServiceProvider;
  */
 $build = function()
 {
-
-    $_SERVER['REQUEST_METHOD'] = null;
+    // $_SERVER['SERVER_NAME']  = null;
+    // $_SERVER['SERVER_PORT']  = null;
+    $_SERVER['REQUEST_METHOD']  = null;
     $_SERVER['SERVER_PROTOCOL'] = null;
 
-    require_once realpath(__DIR__ . '/../../../../vendor/autoload.php');            // composer
-    require_once realpath(__DIR__ . '/../../../../wordpress/wp-blog-header.php');   // wordpress
+    require_once realpath(__DIR__ . '/../../../../vendor/autoload.php');            // composer (不一定存在)
+    require_once realpath(__DIR__ . '/../../../../wordpress/wp-blog-header.php');   // wordpress (位置可能不同)
     require_once realpath(__DIR__ . '/../autoloader.php');                          // custom namespace
 
     $pluginFolder = realpath(__DIR__ . '/..');

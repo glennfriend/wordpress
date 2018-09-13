@@ -20,14 +20,19 @@ spl_autoload_register(__NAMESPACE__ . '\\autoloader');
  *
  * @param string $filename The fully-qualified name of the file that contains the class.
  */
-function autoloader($filename) {
-
+function autoloader($filename)
+{
     $file_path = explode( '\\', $filename );
-
-    $class_file = $file_path[count($file_path) - 1] ?? null;
-    if (null !== $class_file) {
-        $class_file .= ".php";
+    if (! $file_path) {
+        return;
     }
+
+    $class_file = $file_path[count($file_path) - 1];
+    if (! $class_file) {
+        return;
+    }
+
+    $class_file .= ".php";
 
     // $fully_qualified_path = rtrim(__DIR__, '/\\') . '/';
     $fully_qualified_path = trailingslashit(__DIR__);

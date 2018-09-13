@@ -42,7 +42,7 @@ class ServiceProviderBase
     /**
      * @param string $file
      */
-    public function __construct(string $file)
+    public function __construct($file)
     {
         $this->file = $file;
         $this->namespace = explode("\\", __NAMESPACE__)[0];
@@ -86,12 +86,27 @@ class ServiceProviderBase
          * Tested up to:
          * Text Domain:
          */
+
+        if(! is_array($this->build_plugin_info)) {
+            $this->build_plugin_info = [];
+        }
+
+        // PHP5
+        $this->build_plugin_info['plugin_name'] = $this->build_plugin_info['plugin_name']   ? $this->build_plugin_info['plugin_name']   : $this->name;
+        $this->build_plugin_info['plugin_uri']  = $this->build_plugin_info['plugin_uri']    ? $this->build_plugin_info['plugin_uri']    : null;
+        $this->build_plugin_info['description'] = $this->build_plugin_info['description']   ? $this->build_plugin_info['description']   : null;
+        $this->build_plugin_info['author']      = $this->build_plugin_info['author']        ? $this->build_plugin_info['author']        : null;
+        $this->build_plugin_info['author_uri']  = $this->build_plugin_info['author_uri']    ? $this->build_plugin_info['author_uri']    : null;
+
+        /*
+        // PHP7
         $this->build_plugin_info                = $this->build_plugin_info                  ?? [];
         $this->build_plugin_info['plugin_name'] = $this->build_plugin_info['plugin_name']   ?? $this->name;
         $this->build_plugin_info['plugin_uri']  = $this->build_plugin_info['plugin_uri']    ?? null;
         $this->build_plugin_info['description'] = $this->build_plugin_info['description']   ?? null;
         $this->build_plugin_info['author']      = $this->build_plugin_info['author']        ?? null;
         $this->build_plugin_info['author_uri']  = $this->build_plugin_info['author_uri']    ?? null;
+        */
     }
 
     public function execute($class)
