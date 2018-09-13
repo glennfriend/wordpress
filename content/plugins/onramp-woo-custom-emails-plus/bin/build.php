@@ -7,15 +7,51 @@ use OnrampWooCustomEmailsPlus\App\ServiceProvider;
  */
 $build = function()
 {
-    // $_SERVER['SERVER_NAME']  = null;
-    // $_SERVER['SERVER_PORT']  = null;
+    $_SERVER['SERVER_NAME']     = null;
+    $_SERVER['SERVER_PORT']     = null;
     $_SERVER['REQUEST_METHOD']  = null;
     $_SERVER['SERVER_PROTOCOL'] = null;
 
-    require_once realpath(__DIR__ . '/../../../../vendor/autoload.php');            // composer (不一定存在)
-    require_once realpath(__DIR__ . '/../../../../wordpress/wp-blog-header.php');   // wordpress (位置可能不同)
-    require_once realpath(__DIR__ . '/../autoloader.php');                          // custom namespace
 
+    // composer
+    echo "load composer autoload.php           => ";
+    $composerAutoload = realpath(__DIR__ . '/../../../../vendor/autoload.php');
+    if ($composerAutoload) {
+        require_once $composerAutoload;
+        echo "Success\n";
+    }
+    else {
+        echo "Fail\n";
+    }
+
+    // wordpress (位置可能不同)
+    echo "load wordpress wp-blog-header.php    => ";
+    $wordpressBlogHeader = realpath(__DIR__ . '/../../../../wordpress/wp-blog-header.php');
+    if ($wordpressBlogHeader) {
+        require_once $wordpressBlogHeader;
+        echo "Success\n";
+    }
+    else {
+        echo "Error\n";
+        echo "Tips: you can try\n";
+        echo "> locate wp-blog-header.php\n";
+        exit;
+    }
+
+    // plugin
+    echo "load plugin namespace autoloader.php => ";
+    $pluginAutoloader = realpath(__DIR__ . '/../autoloader.php');
+    if ($pluginAutoloader) {
+        require_once $pluginAutoloader;
+        echo "Success\n";
+    }
+    else {
+        echo "Error:\n";
+        exit;
+    }
+
+
+    // build plugin main php
     $pluginFolder = realpath(__DIR__ . '/..');
     $filename = basename($pluginFolder) . '.php';
     $file = $pluginFolder . '/' . $filename;
@@ -23,9 +59,11 @@ $build = function()
     // ================================================================================
     //  check
     // ================================================================================
+    echo "\n";
+    echo "generate file '" . $filename . "'\n";
     if (file_exists($file)) {
-        echo $filename . ' is exists!';
-        echo "\n";
+        echo "=> Error\n";
+        echo "=> file is exists!\n";
         exit;
     }
 
@@ -79,7 +117,18 @@ EOD;
     $template = '<' . '?' . 'php' . "\n" . $template . "\n";
     file_put_contents($file , $template);
 
+    // ================================================================================
+    //  check
+    // ================================================================================
+    if (file_exists($file)) {
+        echo "=> Success\n";
+    }
+    else {
+        echo "=> Fail\n";
+    }
+
+
 };
 
 $build();
-echo "\n";
+
