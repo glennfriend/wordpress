@@ -87,20 +87,22 @@ class ServiceProviderBase
          * Text Domain:
          */
 
-        if(! is_array($this->build_plugin_info)) {
+        if (! isset($this->build_plugin_info)) {
+            $this->build_plugin_info = [];
+        }
+        if (! is_array($this->build_plugin_info)) {
             $this->build_plugin_info = [];
         }
 
         // PHP5
-        $this->build_plugin_info['plugin_name'] = $this->build_plugin_info['plugin_name']   ? $this->build_plugin_info['plugin_name']   : $this->name;
-        $this->build_plugin_info['plugin_uri']  = $this->build_plugin_info['plugin_uri']    ? $this->build_plugin_info['plugin_uri']    : null;
-        $this->build_plugin_info['description'] = $this->build_plugin_info['description']   ? $this->build_plugin_info['description']   : null;
-        $this->build_plugin_info['author']      = $this->build_plugin_info['author']        ? $this->build_plugin_info['author']        : null;
-        $this->build_plugin_info['author_uri']  = $this->build_plugin_info['author_uri']    ? $this->build_plugin_info['author_uri']    : null;
+        $this->build_plugin_info['plugin_name'] = isset($this->build_plugin_info['plugin_name'])    ? $this->build_plugin_info['plugin_name']   : $this->name;
+        $this->build_plugin_info['plugin_uri']  = isset($this->build_plugin_info['plugin_uri'])     ? $this->build_plugin_info['plugin_uri']    : null;
+        $this->build_plugin_info['description'] = isset($this->build_plugin_info['description'])    ? $this->build_plugin_info['description']   : null;
+        $this->build_plugin_info['author']      = isset($this->build_plugin_info['author'])         ? $this->build_plugin_info['author']        : null;
+        $this->build_plugin_info['author_uri']  = isset($this->build_plugin_info['author_uri'])     ? $this->build_plugin_info['author_uri']    : null;
 
         /*
         // PHP7
-        $this->build_plugin_info                = $this->build_plugin_info                  ?? [];
         $this->build_plugin_info['plugin_name'] = $this->build_plugin_info['plugin_name']   ?? $this->name;
         $this->build_plugin_info['plugin_uri']  = $this->build_plugin_info['plugin_uri']    ?? null;
         $this->build_plugin_info['description'] = $this->build_plugin_info['description']   ?? null;
