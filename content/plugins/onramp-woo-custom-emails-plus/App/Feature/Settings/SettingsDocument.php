@@ -24,6 +24,7 @@ class SettingsDocument
     public function page()
     {
         $title = null;
+        register_setting($this->pageId, $this->saveName);
         add_settings_section($this->pageId, $title, [$this, 'top_section'], $this->saveName);
     }
 
@@ -47,5 +48,9 @@ class SettingsDocument
 </div>
 EOD;
     }
+
+    // ================================================================================
+    //  input fields
+    // ================================================================================
 
 }

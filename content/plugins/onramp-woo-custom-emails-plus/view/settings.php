@@ -19,12 +19,13 @@
         echo '</h2>';
     };
 
-    $displayForm = function()
+    $displayForm = function() use ($tabFocus)
     {
-        echo '<form method="post" action="options.php">';
-        settings_fields($this->pageId);
-        do_settings_sections($this->saveName);
-        submit_button();
+        $action = "options.php?tab=" . $tabFocus;
+        echo '<form method="post" action="'. $action .'">';
+            settings_fields($this->pageId);
+            do_settings_sections($this->saveName);
+            submit_button();
         echo '</form>';
     };
 

@@ -61,7 +61,8 @@ class SettingsGeneral
         {
             $options = get_option($this->saveName);
             $field = "{$this->saveName}[{$name}]";
-            $value = $options[$name];
+            $value = isset($options[$name]) ? $options[$name] : 'default';
+
             echo <<<"EOD"
                 <input name="{$field}" type="text" value="{$value}">
 EOD;
@@ -81,7 +82,7 @@ EOD;
         {
             $options = get_option($this->saveName);
             $field = "{$this->saveName}[{$name}]";
-            $value = $options[$name];
+            $value = isset($options[$name]) ? $options[$name] : 'default';
             echo <<<"EOD"
                 <input name="{$field}" type="text" value="{$value}">
 EOD;
@@ -107,7 +108,7 @@ EOD;
 
             $options = get_option($this->saveName);
             $field = "{$this->saveName}[{$name}]";
-            $value = $options[$name];
+            $value = isset($options[$name]) ? $options[$name] : 'default';
 
             echo '<select name="' . $field .'">';
 
