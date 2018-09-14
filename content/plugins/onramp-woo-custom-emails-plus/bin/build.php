@@ -100,7 +100,7 @@ $build = function()
 // Please do not modify this file
 //
 
-namespace {$provider->namespace};
+// namespace {$provider->namespace};
 use {$className};
 
 /**

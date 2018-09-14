@@ -4,7 +4,6 @@
 // Please do not modify this file
 //
 
-namespace OnrampWooCustomEmailsPlus;
 use OnrampWooCustomEmailsPlus\App\ServiceProvider;
 
 /**
