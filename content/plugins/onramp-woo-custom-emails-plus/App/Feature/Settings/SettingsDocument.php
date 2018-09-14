@@ -7,6 +7,7 @@ class SettingsDocument
 
     const TAB = 'document';
     const LABEL = 'Document';
+    const SHOW_SUBMIT = false;
 
     /**
      * @param $pageId

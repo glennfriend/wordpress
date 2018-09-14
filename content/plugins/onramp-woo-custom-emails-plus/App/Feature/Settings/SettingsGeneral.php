@@ -7,6 +7,7 @@ class SettingsGeneral
 
     const TAB = 'general';
     const LABEL = 'General';
+    const SHOW_SUBMIT = true;
 
     /**
      * @param $pageId

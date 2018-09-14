@@ -14,9 +14,9 @@ class Settings extends Controller
         //
         $this->tabFocus = SettingsGeneral::TAB;
         $this->tabs = [
-            SettingsGeneral::TAB    => SettingsGeneral::class,
-            SettingsDocument::TAB   => SettingsDocument::class,
-            SettingsDescription::TAB   => SettingsDescription::class,
+            SettingsGeneral::TAB        => SettingsGeneral::class,
+            SettingsDescription::TAB    => SettingsDescription::class,
+            SettingsDocument::TAB       => SettingsDocument::class,
         ];
 
         $this->menuName  = 'Onramp Set';
@@ -94,8 +94,8 @@ class Settings extends Controller
     {
 
         $views = [
-            'tabs' => $this->tabs,
-            'tabFocus' => $this->tabFocus,
+            'tabs'      => $this->tabs,
+            'tabFocus'  => $this->tabFocus,
         ];
         $this->view('settings', $views);
     }

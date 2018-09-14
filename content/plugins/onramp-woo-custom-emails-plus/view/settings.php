@@ -1,11 +1,10 @@
 <?php
 
-    $displayNav = function() use ($tabs, $tabFocus)
+    $displayNav = function($tabs, $tabFocus)
     {
-        $title = esc_html(get_admin_page_title());
         $pageId = $this->pageId;
 
-        echo '<h2>' . $title . '</h2>';
+        echo '<h2>' . getTitle() . '</h2>';
         echo '<h2 class="nav-tab-wrapper sengrid-settings-nav-bar">';
         foreach ($tabs as $tab => $className) {
             $focus = null;
@@ -14,18 +13,24 @@
             }
 
             $show = $className::LABEL;
+
             echo '<a href="?page='. $pageId . '&tab='. $tab .'" class="nav-tab ' . $focus . '">' . $show . '</a>';
         }
         echo '</h2>';
     };
 
-    $displayForm = function() use ($tabFocus)
+    $displayForm = function($tabFocus, $showSubmit)
     {
         $action = "options.php?tab=" . $tabFocus;
         echo '<form method="post" action="'. $action .'">';
-            settings_fields($this->pageId);
-            do_settings_sections($this->saveName);
+
+        settings_fields($this->pageId);
+        do_settings_sections($this->saveName);
+
+        if ($showSubmit) {
             submit_button();
+        }
+
         echo '</form>';
     };
 
@@ -40,8 +45,40 @@
 
 
 
+    //
+    $className = getFocusTabClass($tabs, $tabFocus);
+    $showSubmit = $className::SHOW_SUBMIT;
+
     echo '<div class="wrap">';
-        $displayNav();
-        $displayForm();
+        $displayNav($tabs, $tabFocus);
+        $displayForm($tabFocus, $showSubmit);
         // $dispalyDebug();
     echo '</div>';
+
+
+
+
+
+
+
+
+    // ================================================================================
+    //  functions
+    // ================================================================================
+
+    function getFocusTabClass(array $tabs, $tabFocus)
+    {
+        foreach ($tabs as $tab => $className) {
+            $focus = null;
+            if ($tabFocus === $tab) {
+                return $className;
+            }
+        }
+
+        return null;
+    }
+
+    function getTitle()
+    {
+        return esc_html(get_admin_page_title());
+    }

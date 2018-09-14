@@ -7,6 +7,7 @@ class SettingsDescription
 
     const TAB = 'description';
     const LABEL = 'Description';
+    const SHOW_SUBMIT = true;
 
     /**
      * @param $pageId
