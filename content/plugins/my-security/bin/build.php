@@ -115,7 +115,7 @@ defined('ABSPATH') || exit;
 
 if (! class_exists(ServiceProvider::class)) {
     \$init = function() {
-        include_once('Autoloader.php');
+        include_once(__DIR__ . '/Autoloader.php');
         \$instance = new ServiceProvider(__FILE__);
         \$instance->start();
     };

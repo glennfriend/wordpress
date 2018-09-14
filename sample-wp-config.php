@@ -19,6 +19,10 @@ define('WPMU_PLUGIN_URL', 'https://' . $_SERVER['HTTP_HOST'] . '/' . SITE_FOLDER
 //
 define('WP_DEBUG_LOG', false);
 define('WP_DEBUG_DISPLAY', false);
+// error_reporting(E_ALL);
+// ini_set('html_errors','Off');
+// ini_set('display_errors','On');
+
 
 /**
  * Composer's autoloader, used throughout the project
