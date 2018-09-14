@@ -47,7 +47,7 @@
 
     //
     $className = getFocusTabClass($tabs, $tabFocus);
-    $showSubmit = $className::SHOW_SUBMIT;
+    $showSubmit = (bool) $className::SHOW_SUBMIT;
 
     echo '<div class="wrap">';
         $displayNav($tabs, $tabFocus);

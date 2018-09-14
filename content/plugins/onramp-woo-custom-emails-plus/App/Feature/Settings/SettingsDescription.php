@@ -28,6 +28,7 @@ class SettingsDescription
         register_setting($this->pageId, $this->saveName);
         add_settings_section($this->pageId, $title, [$this, 'top_section'], $this->saveName);
 
+        //
         $this->field_number();
     }
 
@@ -36,13 +37,6 @@ class SettingsDescription
      */
     public function top_section($arguments)
     {
-        $isDebug = false;
-
-        if ($isDebug) {
-            echo '<pre>';
-            print_r($arguments);
-            echo '</pre>';
-        }
     }
 
     // ================================================================================

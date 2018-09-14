@@ -92,7 +92,6 @@ class Settings extends Controller
      */
     public function settings_view()
     {
-
         $views = [
             'tabs'      => $this->tabs,
             'tabFocus'  => $this->tabFocus,
