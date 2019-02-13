@@ -17,11 +17,11 @@ define('WP_PLUGIN_URL',   'https://' . $_SERVER['HTTP_HOST'] . '/' . SITE_FOLDER
 define('WPMU_PLUGIN_URL', 'https://' . $_SERVER['HTTP_HOST'] . '/' . SITE_FOLDER . '/content/mu-plugins');
 
 //
-define('WP_DEBUG_LOG', false);
-define('WP_DEBUG_DISPLAY', false);
-// error_reporting(E_ALL);
-// ini_set('html_errors','Off');
-// ini_set('display_errors','On');
+define('WP_DEBUG_LOG', true);
+define('WP_DEBUG_DISPLAY', true);
+error_reporting(E_ALL);
+ini_set('html_errors','Off');
+ini_set('display_errors','On');
 
 
 /**
@@ -110,13 +110,14 @@ $table_prefix  = 'wp_';
  *
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
-define('WP_DEBUG', false);
+define('WP_DEBUG', true);
 
 /* That's all, stop editing! Happy blogging. */
 
 /** Absolute path to the WordPress directory. */
-if ( !defined('ABSPATH') )
-    define('ABSPATH', dirname(__FILE__) . '/');
+if ( !defined('ABSPATH') ) {
+    define('ABSPATH', __DIR__ . '/wordpress/');
+}
 
 /** Sets up WordPress vars and included files. */
 require_once(ABSPATH . 'wp-settings.php');
