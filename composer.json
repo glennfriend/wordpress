@@ -26,16 +26,19 @@
     },
     "scripts": {
         "post-install-cmd": [
+            "sudo echo 'please to change permission'",
             "mkdir -p content/themes",
             "mkdir -p content/plugins",
             "mkdir -p content/mu-plugins",
             "mkdir -p content/uploads",
             "cp -n wordpress/wp-config-sample.php ./wp-config.php",
-            "find ./wordpress/ -type d -exec chmod 0775 {} \\;",
-            "find ./wordpress/ -type f -exec chmod 0664 {} \\;",
+            "sudo find ./content/    -type d -exec chmod 0775 {} \\;",
+            "sudo find ./content/    -type f -exec chmod 0664 {} \\;",
+            "sudo find ./wordpress/  -type d -exec chmod 0775 {} \\;",
+            "sudo find ./wordpress/  -type f -exec chmod 0664 {} \\;",
             "rm -f ./wordpress/index.php",
             "rm -f ./wordpress/readme.html",
-            "mv ./wordpress/wp-content /tmp/"
+            "[ ! -d ./wordpress/wp-content ] || mv ./wordpress/wp-content /tmp/"
         ]
     }
 }
